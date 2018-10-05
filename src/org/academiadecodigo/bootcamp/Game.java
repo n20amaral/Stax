@@ -10,4 +10,8 @@ public class Game {
     public void init() {
         canvas.draw();
     }
+
+    public void start() {
+
+    }
 }
