@@ -1,5 +1,6 @@
 package org.academiadecodigo.bootcamp;
 
+import org.academiadecodigo.bootcamp.gameobjects.Carrier;
 import org.academiadecodigo.bootcamp.gameobjects.Grid;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
@@ -24,6 +25,7 @@ public class Game {
     }
 
     public void start() {
-
+        Carrier carrier = new Carrier();
+        carrier.init();
     }
 }
