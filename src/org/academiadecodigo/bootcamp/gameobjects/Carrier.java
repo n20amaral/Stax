@@ -32,6 +32,9 @@ public class Carrier implements KeyboardHandler {
 
     private void show() {
         carrier.fill();
+        if (brick != null){
+            //brick.fill();
+        }
     }
 
     private void hide() {
@@ -39,7 +42,10 @@ public class Carrier implements KeyboardHandler {
     }
 
     public void addBrick(Brick brick) {
-        this.brick = brick;
+        if (brick.getCol() == col && this.brick != null) {
+            this.brick = brick;
+            brick.setRow(row - 1);
+        }
     }
 
     private void releaseBrick() { // implement buffer here
