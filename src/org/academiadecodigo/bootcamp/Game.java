@@ -1,7 +1,7 @@
 package org.academiadecodigo.bootcamp;
 
 import org.academiadecodigo.bootcamp.gameobjects.Carrier;
-import org.academiadecodigo.bootcamp.gameobjects.grid.Grid;
+import org.academiadecodigo.bootcamp.gameobjects.grid.*;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
@@ -24,9 +24,9 @@ public class Game {
     }
 
     public void init() {
-        beltGrid = new Grid(cols, 10, Color.LIGHT_GRAY);
-        carrierGrid = new Grid(cols, 2, Color.BLACK);
-        stackGrid = new Grid(cols, 5, Color.LIGHT_GRAY);
+        beltGrid = new BeltGrid(cols, 10, Color.LIGHT_GRAY);
+        carrierGrid = new CarrierGrid(cols, 2, Color.BLACK);
+        stackGrid = new StackGrid(cols, 5, Color.LIGHT_GRAY);
 
         beltGrid.moveDown(0);
         carrierGrid.moveDown(beltGrid.getHeight());
