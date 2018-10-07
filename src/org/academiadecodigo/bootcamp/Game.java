@@ -39,7 +39,7 @@ public class Game {
     }
 
     public void start() {
-        Carrier carrier = new Carrier();
+        Carrier carrier = new Carrier(carrierGrid);
         carrier.init();
     }
 }

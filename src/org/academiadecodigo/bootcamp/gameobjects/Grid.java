@@ -26,6 +26,14 @@ public class Grid {
         return grid.getHeight();
     }
 
+    public int getX() {
+        return grid.getX();
+    }
+
+    public int getY() {
+        return grid.getY();
+    }
+
     public void moveDown(int y) {
         int center = (Game.CANVAS_WIDTH - grid.getWidth()) / 2;
 

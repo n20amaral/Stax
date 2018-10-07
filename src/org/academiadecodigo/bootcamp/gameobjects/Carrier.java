@@ -1,11 +1,13 @@
 package org.academiadecodigo.bootcamp.gameobjects;
 
+import org.academiadecodigo.bootcamp.Game;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.keyboard.*;
 
 public class Carrier implements KeyboardHandler {
 
+    private Grid grid;
     private Rectangle carrier;
     private Brick brick;
     private Brick buffer;
@@ -13,10 +15,11 @@ public class Carrier implements KeyboardHandler {
     private int row;
     private Keyboard keyboard;
 
-    public Carrier() {
+    public Carrier(Grid grid) {
         this.col = 1;
         this.row = 1;
-        this.carrier = new Rectangle(col,row,100,50);
+        this.grid = grid;
+        this.carrier = new Rectangle(grid.getX() + col * Game.BRICK_WIDTH,grid.getY() +  row * Game.BRICK_HEIGHT, Game.BRICK_WIDTH,Game.BRICK_HEIGHT);
         carrier.setColor(Color.CYAN);
         this.keyboard = new Keyboard(this);
         show();
@@ -77,24 +80,26 @@ public class Carrier implements KeyboardHandler {
 
     public void moveLeft() {
         if (col > 0) {
-            hide();
+            //hide();
             col--;
             if (brick != null) {
                 brick.setCol(col);
             }
-            show();
+            //show();
+            carrier.translate(0 - Game.BRICK_WIDTH, 0);
         }
 
     }
 
     public void moveRight() {
-        if (col < 5) {
-            hide();
+        if (col < 4) {
+            //hide();
             col++;
             if (brick != null) {
                 brick.setCol(col);
             }
-            show();
+            carrier.translate(Game.BRICK_WIDTH, 0);
+            //show();
         }
 
     }
