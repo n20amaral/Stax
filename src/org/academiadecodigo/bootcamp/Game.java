@@ -14,9 +14,9 @@ public class Game {
 
     private int cols;
     private Rectangle canvas = new Rectangle(PADDING, PADDING, CANVAS_WIDTH, CANVAS_HEIGHT);
-    private Grid beltGrid;
-    private Grid carrierGrid;
-    private Grid stackGrid;
+    private BeltGrid beltGrid;
+    private CarrierGrid carrierGrid;
+    private StackGrid stackGrid;
      
 
     public Game(int cols) {
