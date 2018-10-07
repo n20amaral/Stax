@@ -4,7 +4,7 @@ public class Stax {
 
     public static void main(String[] args) {
 
-        Game stax = new Game(5,10);
+        Game stax = new Game(5);
 
         stax.init();
         stax.start();
