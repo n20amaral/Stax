@@ -1,4 +1,4 @@
-package org.academiadecodigo.bootcamp.gameobjects;
+package org.academiadecodigo.bootcamp.gameobjects.brick;
 
 public class Brick {
 

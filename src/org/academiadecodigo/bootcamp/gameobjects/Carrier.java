@@ -1,6 +1,8 @@
 package org.academiadecodigo.bootcamp.gameobjects;
 
 import org.academiadecodigo.bootcamp.Game;
+import org.academiadecodigo.bootcamp.gameobjects.brick.Brick;
+import org.academiadecodigo.bootcamp.gameobjects.grid.Grid;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.keyboard.*;

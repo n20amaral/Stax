@@ -1,10 +1,10 @@
-package org.academiadecodigo.bootcamp.gameobjects;
+package org.academiadecodigo.bootcamp.gameobjects.grid;
 
 import org.academiadecodigo.bootcamp.Game;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
-public class Grid {
+public abstract class Grid {
     private int cols;
     private int rows;
     Rectangle grid;

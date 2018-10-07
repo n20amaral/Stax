@@ -1,7 +1,7 @@
 package org.academiadecodigo.bootcamp;
 
 import org.academiadecodigo.bootcamp.gameobjects.Carrier;
-import org.academiadecodigo.bootcamp.gameobjects.Grid;
+import org.academiadecodigo.bootcamp.gameobjects.grid.Grid;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
