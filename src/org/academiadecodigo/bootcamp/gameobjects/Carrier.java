@@ -8,11 +8,10 @@ public class Carrier implements KeyboardHandler {
 
     private Rectangle carrier;
     private Brick brick;
+    private Brick buffer;
     private int col;
     private int row;
     private Keyboard keyboard;
-    private KeyboardEvent left;
-    private KeyboardEvent right;
 
     public Carrier() {
         this.col = 1;
@@ -23,6 +22,14 @@ public class Carrier implements KeyboardHandler {
         show();
     }
 
+    public Brick getBuffer() {
+        return buffer;
+    }
+
+    public void setBuffer(Brick buffer) {
+        this.buffer = buffer;
+    }
+
     private void show() {
         carrier.fill();
     }
@@ -31,19 +38,34 @@ public class Carrier implements KeyboardHandler {
         carrier.delete();
     }
 
+    public void addBrick(Brick brick) {
+        this.brick = brick;
+    }
+
+    private void releaseBrick() { // implement buffer here
+        if (brick != null) {
+            buffer = brick;
+            brick = null;
+        }
+    }
+
     public void init() {
 
-        left = new KeyboardEvent();
-        right = new KeyboardEvent();
+        KeyboardEvent left = new KeyboardEvent();
+        KeyboardEvent right = new KeyboardEvent();
+        KeyboardEvent space = new KeyboardEvent();
 
         left.setKey(KeyboardEvent.KEY_LEFT);
         right.setKey(KeyboardEvent.KEY_RIGHT);
+        space.setKey(KeyboardEvent.KEY_SPACE);
 
         left.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         right.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        space.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
         keyboard.addEventListener(left);
         keyboard.addEventListener(right);
+        keyboard.addEventListener(space);
 
     }
 
@@ -51,6 +73,9 @@ public class Carrier implements KeyboardHandler {
         if (col > 0) {
             hide();
             col--;
+            if (brick != null) {
+                brick.setCol(col);
+            }
             show();
         }
 
@@ -60,6 +85,9 @@ public class Carrier implements KeyboardHandler {
         if (col < 5) {
             hide();
             col++;
+            if (brick != null) {
+                brick.setCol(col);
+            }
             show();
         }
 
@@ -75,6 +103,10 @@ public class Carrier implements KeyboardHandler {
             case KeyboardEvent.KEY_RIGHT:
                 moveRight();
                 System.out.println("RIGHT");
+                break;
+            case KeyboardEvent.KEY_SPACE:
+                releaseBrick();
+                System.out.println("SPACE");
                 break;
         }
     }
