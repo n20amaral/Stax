@@ -1,44 +1,28 @@
 package org.academiadecodigo.bootcamp.gameobjects.grid;
 
 import org.academiadecodigo.bootcamp.Game;
+import org.academiadecodigo.bootcamp.gameobjects.brick.Brick;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
 public abstract class Grid {
     private int cols;
     private int rows;
-    Rectangle grid;
-    Color color;
+    private Brick[] bricks;
 
-    public Grid(int cols, int rows, Color color) {
+    public Grid(int cols, int rows, int maxBricks) {
         this.cols = cols;
         this.rows = rows;
-        this.color = color;
-        grid = new Rectangle(Game.PADDING, Game.PADDING, cols * Game.BRICK_WIDTH, rows * Game.BRICK_HEIGHT);
+        this.bricks = new Brick[maxBricks];
     }
 
-    public void show() {
-        grid.setColor(color);
-        grid.fill();
+    public int getRows() {
+        return this.rows;
     }
 
-    public int getHeight() {
-        return grid.getHeight();
+    public int getCols() {
+        return this.cols;
     }
 
-    public int getX() {
-        return grid.getX();
-    }
-
-    public int getY() {
-        return grid.getY();
-    }
-
-    public void moveDown(int y) {
-        int center = (Game.CANVAS_WIDTH - grid.getWidth()) / 2;
-
-        grid.translate(center, y);
-
-    }
 
 }
