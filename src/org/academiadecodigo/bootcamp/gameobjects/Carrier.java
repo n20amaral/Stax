@@ -1,11 +1,9 @@
 package org.academiadecodigo.bootcamp.gameobjects;
 
 import org.academiadecodigo.bootcamp.Game;
-import org.academiadecodigo.bootcamp.gameobjects.brick.Brick;
-import org.academiadecodigo.bootcamp.gameobjects.grid.CarrierGrid;
-import org.academiadecodigo.bootcamp.gameobjects.grid.Grid;
-import org.academiadecodigo.simplegraphics.graphics.Color;
-import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+import org.academiadecodigo.bootcamp.gameobjects.grid.*;
+import org.academiadecodigo.bootcamp.gameobjects.brick.*;
+import org.academiadecodigo.simplegraphics.graphics.*;
 import org.academiadecodigo.simplegraphics.keyboard.*;
 
 public class Carrier implements KeyboardHandler {
@@ -13,7 +11,6 @@ public class Carrier implements KeyboardHandler {
     private CarrierGrid grid;
     private Rectangle carrier;
     private Brick brick;
-    private Brick buffer;
     private int col;
     private int row;
     private Keyboard keyboard;
@@ -26,14 +23,6 @@ public class Carrier implements KeyboardHandler {
         carrier.setColor(Color.CYAN);
         this.keyboard = new Keyboard(this);
         show();
-    }
-
-    public Brick getBuffer() {
-        return buffer;
-    }
-
-    public void setBuffer(Brick buffer) {
-        this.buffer = buffer;
     }
 
     private void show() {
@@ -57,7 +46,7 @@ public class Carrier implements KeyboardHandler {
 
     private void releaseBrick() { // implement buffer here
         if (brick != null) {
-            grid.setReleasedBrick(brick);
+            grid.addReleasedBrick(brick);
             brick = null;
         }
     }
