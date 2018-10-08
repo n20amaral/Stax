@@ -4,7 +4,6 @@ import org.academiadecodigo.bootcamp.gameobjects.Carrier;
 import org.academiadecodigo.bootcamp.gameobjects.brick.Brick;
 import org.academiadecodigo.bootcamp.gameobjects.brick.BrickFactory;
 import org.academiadecodigo.bootcamp.gameobjects.grid.*;
-import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
 public class Game {
@@ -16,6 +15,7 @@ public class Game {
 
 
     private int cols;
+    private int score = 0;
     private Rectangle canvas = new Rectangle(PADDING, PADDING, CANVAS_WIDTH, CANVAS_HEIGHT);
     private BeltGrid beltGrid;
     private CarrierGrid carrierGrid;
@@ -51,11 +51,10 @@ public class Game {
             createBricks();
             moveBricks();
             finalRowCheck();
-
-            dropBrick();
+            endgame();
             addPoints();
         }
-
+        
     }
 
     private void createBricks() {
@@ -66,30 +65,32 @@ public class Game {
         beltGrid.moveAllBricks();
     }
 
-    private boolean finalRowCheck() {
+    private void finalRowCheck() {
 
         Brick brick = beltGrid.getFallingBrick();
 
         if (carrier.getCol() == brick.getCol()){
             carrier.addBrick(brick);
         }
-
     }
 
-    private Brick[] dropBrick() {
+    private Brick[] droppedbricks() {
 
-        Brick[] bricks = carrierGrid.getReleasedBricks();
-        return bricks;
+        return carrierGrid.getReleasedBricks();
     }
 
-    private int addPoints() {
+    private void addPoints() {
 
+        score += stackGrid.resetPointsScore();
     }
 
     private void endgame() {
 
-        if (stackGrid.receiveBrick(dropBrick())) {
+        if (!stackGrid.receiveBrick(droppedbricks())) {
             setGameOver();
+
+        }   else {
+            addPoints();
         }
     }
 
