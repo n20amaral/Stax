@@ -8,7 +8,7 @@ import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 public abstract class Grid {
     private int cols;
     private int rows;
-    private Brick[] bricks;
+    protected Brick[] bricks;
 
     public Grid(int cols, int rows, int maxBricks) {
         this.cols = cols;

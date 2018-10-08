@@ -8,19 +8,46 @@ public class BeltGrid extends Grid {
         super(cols, rows, rows);
     }
 
-    public void addNewBrick() {
+    public void addNewBrick(Brick brick) {
 
+        for (int i = 0; i < bricks.length; i++) {
+            if (bricks[i] == null) {
+                bricks[i] = brick;
+                break;
+            }
+        }
     }
 
     public void moveAllBricks() {
+        for (int i = 0; i < bricks.length; i++) {
 
+            if (bricks[i] == null) {
+                continue;
+            }
+
+            bricks[i].moveDown();
+        }
     }
 
     public Brick getFallingBrick() {
-        return new Brick();
+
+        Brick fallingBrick = null;
+
+        for (int i = 0; i < bricks.length; i++) {
+
+            if (bricks[i] == null) {
+                continue;
+            }
+
+            if (bricks[i].getRow() == getRows()) {
+                fallingBrick = bricks[i];
+                bricks[i] = null;
+            }
+        }
+        return fallingBrick;
     }
 
-    
+
 
 
 }
