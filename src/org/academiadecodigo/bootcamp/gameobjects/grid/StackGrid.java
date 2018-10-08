@@ -70,6 +70,7 @@ public class StackGrid extends Grid {
 
                 stackBrickRow[e][brickCol] = brick[i];
                 brickRow = e;
+                break;
 
             }
 
