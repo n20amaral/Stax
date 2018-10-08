@@ -9,7 +9,7 @@ import org.academiadecodigo.simplegraphics.keyboard.*;
 public class Carrier implements KeyboardHandler {
 
     private CarrierGrid grid;
-    private Rectangle carrier;
+ //   private Rectangle carrier;
     private Brick brick;
     private int col;
     private int row;
@@ -19,17 +19,17 @@ public class Carrier implements KeyboardHandler {
         this.col = 1;
         this.row = 1;
         this.grid = grid;
-        this.carrier = new Rectangle(grid.getX() + col * Game.BRICK_WIDTH,grid.getY() +  row * Game.BRICK_HEIGHT, Game.BRICK_WIDTH,Game.BRICK_HEIGHT);
+  /*      this.carrier = new Rectangle(grid.getX() + col * Game.BRICK_WIDTH,grid.getY() +  row * Game.BRICK_HEIGHT, Game.BRICK_WIDTH,Game.BRICK_HEIGHT);
         carrier.setColor(Color.CYAN);
         this.keyboard = new Keyboard(this);
-        show();
+        show(); */
     }
 
     public int getCol() {
         return col;
     }
 
-    private void show() {
+  /*  private void show() {
         carrier.fill();
         if (brick != null){
             //brick.fill();
@@ -38,7 +38,7 @@ public class Carrier implements KeyboardHandler {
 
     private void hide() {
         carrier.delete();
-    }
+    } */
 
     public void addBrick(Brick brick) {
         if (brick.getCol() == col && this.brick != null) {
@@ -83,7 +83,7 @@ public class Carrier implements KeyboardHandler {
                 brick.setCol(col);
             }
             //show();
-            carrier.translate(0 - Game.BRICK_WIDTH, 0);
+           // carrier.translate(0 - Game.BRICK_WIDTH, 0);
         }
 
     }
@@ -95,7 +95,7 @@ public class Carrier implements KeyboardHandler {
             if (brick != null) {
                 brick.setCol(col);
             }
-            carrier.translate(Game.BRICK_WIDTH, 0);
+           // carrier.translate(Game.BRICK_WIDTH, 0);
             //show();
         }
 

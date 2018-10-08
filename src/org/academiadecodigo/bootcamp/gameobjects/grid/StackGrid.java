@@ -1,10 +1,6 @@
 package org.academiadecodigo.bootcamp.gameobjects.grid;
 
 import org.academiadecodigo.bootcamp.gameobjects.brick.Brick;
-import org.academiadecodigo.bootcamp.gameobjects.brick.BrickColor;
-import org.academiadecodigo.simplegraphics.graphics.Color;
-
-import java.util.ListIterator;
 
 public class StackGrid extends Grid {
 
@@ -38,7 +34,7 @@ public class StackGrid extends Grid {
     }
 
 
-    public boolean ReceiveBrick(Brick[] brick) {
+    public boolean receiveBrick(Brick[] brick) {
 
         int brickCol;
         int brickRow = 0;

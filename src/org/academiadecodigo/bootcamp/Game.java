@@ -1,6 +1,8 @@
 package org.academiadecodigo.bootcamp;
 
 import org.academiadecodigo.bootcamp.gameobjects.Carrier;
+import org.academiadecodigo.bootcamp.gameobjects.brick.Brick;
+import org.academiadecodigo.bootcamp.gameobjects.brick.BrickFactory;
 import org.academiadecodigo.bootcamp.gameobjects.grid.*;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
@@ -18,13 +20,15 @@ public class Game {
     private BeltGrid beltGrid;
     private CarrierGrid carrierGrid;
     private StackGrid stackGrid;
+    private Carrier carrier;
+    private boolean gameOver;
      
 
     public Game(int cols) {
         this.cols = cols;
     }
 
-    public void init() {
+  /*  public void init() {
         beltGrid = new BeltGrid(cols, 10, Color.LIGHT_GRAY);
         carrierGrid = new CarrierGrid(cols, 2, Color.BLACK);
         stackGrid = new StackGrid(cols, 5, Color.LIGHT_GRAY);
@@ -37,10 +41,63 @@ public class Game {
         beltGrid.show();
         carrierGrid.show();
         stackGrid.show();
-    }
+    } */
 
     public void start() {
-        Carrier carrier = new Carrier(carrierGrid);
-        carrier.init();
+        // carrier.init();
+
+        while(!isGameOver()) {
+
+            createBricks();
+            moveBricks();
+            finalRowCheck();
+
+            dropBrick();
+            addPoints();
+        }
+
+    }
+
+    private void createBricks() {
+        beltGrid.addNewBrick(BrickFactory.getNewBrick());
+    }
+
+    private void moveBricks() {
+        beltGrid.moveAllBricks();
+    }
+
+    private boolean finalRowCheck() {
+
+        Brick brick = beltGrid.getFallingBrick();
+
+        if (carrier.getCol() == brick.getCol()){
+            carrier.addBrick(brick);
+        }
+
+    }
+
+    private Brick[] dropBrick() {
+
+        Brick[] bricks = carrierGrid.getReleasedBricks();
+        return bricks;
+    }
+
+    private int addPoints() {
+
+    }
+
+    private void endgame() {
+
+        if (stackGrid.receiveBrick(dropBrick())) {
+            setGameOver();
+        }
+    }
+
+    private boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver() {
+        this.gameOver = true;
     }
 }

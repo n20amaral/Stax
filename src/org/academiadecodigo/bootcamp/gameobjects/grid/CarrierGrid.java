@@ -8,8 +8,8 @@ public class CarrierGrid extends Grid {
     private int cols;
 
     private Brick[] releasedBricks = new Brick[5];
-    public CarrierGrid(int cols, int rows, Color color) {
-        super(cols, rows, color);
+    public CarrierGrid(int cols, int rows, int maxBricks) {
+        super(cols, rows, maxBricks);
         this.cols = cols;
     }
 
