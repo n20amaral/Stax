@@ -7,9 +7,10 @@ public class StackGrid extends Grid {
     private int pointsScore;
 
     private Brick[][] stackBrickRow;
-    private Brick brickRecebe;
+    private Brick brickReceive;
 
     private int rows;
+    private int cols;
 
 
     public StackGrid(int cols, int rows, int maxBricks) {
@@ -21,14 +22,16 @@ public class StackGrid extends Grid {
 
         this.rows = rows;
 
-        createCol(cols);
+        this.cols = cols;
+
+        createCol();
     }
 
-    private void createCol(int rows) {
+    private void createCol() {
 
         for (int i = 0; i < stackBrickRow.length; i++) {
 
-            this.stackBrickRow[i] = new Brick[rows];
+            this.stackBrickRow[i] = new Brick[cols];
         }
 
     }
@@ -39,13 +42,14 @@ public class StackGrid extends Grid {
         int brickCol;
         int brickRow = 0;
 
+
         //Add brick on StackGrid
         for (int i = 0; i < brick.length; i++) {
 
 
-            this.brickRecebe = brick[i];
+            this.brickReceive = brick[i];
 
-            brickCol = brickRecebe.getCol();
+            brickCol = brickReceive.getCol();
 
 
             if (brick[i].getRow() <= rows) {
@@ -62,6 +66,7 @@ public class StackGrid extends Grid {
 
                 stackBrickRow[e][brickCol] = brick[i];
                 brickRow = e;
+                break;
 
             }
 
@@ -73,7 +78,7 @@ public class StackGrid extends Grid {
                 if ((stackBrickRow[brickRow][brickCol].getColor()).equals((stackBrickRow[brickRow][brickCol - 1].getColor())) &&
                         (stackBrickRow[brickRow][brickCol].getColor()).equals(stackBrickRow[brickRow][brickCol - 2].getColor())) {
 
-                    resetPointsScore(50);
+                    pointsScore += 50;
 
                     stackBrickRow[brickRow][brickCol] = null;
                     stackBrickRow[brickRow][brickCol - 1] = null;
@@ -91,9 +96,13 @@ public class StackGrid extends Grid {
     }
 
 
-    public void resetPointsScore(int points) {
+    public int resetPointsScore() {
 
-        pointsScore += points;
+        int pointToReturn = pointsScore;
+        pointsScore = 0;
+
+        return pointToReturn;
+
 
     }
 
