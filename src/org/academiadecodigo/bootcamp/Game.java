@@ -12,6 +12,7 @@ public class Game {
     public static final int BRICK_WIDTH = 70;
     public static final int BRICK_HEIGHT = 25;
 
+
     private int cols;
     private Rectangle canvas = new Rectangle(PADDING, PADDING, CANVAS_WIDTH, CANVAS_HEIGHT);
     private BeltGrid beltGrid;

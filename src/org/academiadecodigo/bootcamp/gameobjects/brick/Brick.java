@@ -6,6 +6,7 @@ public class Brick {
 
     private int col;
     private int row;
+    private BrickColor color;
     private Rectangle brick;
 
     public Rectangle getBrick() {
@@ -24,8 +25,6 @@ public class Brick {
         this.color = color;
     }
 
-    private BrickColor color;
-
     public int getCol() {
         return col;
     }
@@ -40,6 +39,10 @@ public class Brick {
 
     public void setRow(int row) {
         this.row = row;
+    }
+
+    public boolean moveDown() {
+        return true;
     }
 
     public void show() {
