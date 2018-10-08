@@ -5,9 +5,16 @@ import org.academiadecodigo.simplegraphics.graphics.Color;
 
 public class CarrierGrid extends Grid {
 
+    private int cols;
+
     private Brick[] releasedBricks = new Brick[5];
     public CarrierGrid(int cols, int rows, Color color) {
         super(cols, rows, color);
+        this.cols = cols;
+    }
+
+    public int getCols() {
+        return cols;
     }
 
     public Brick[] getReleasedBricks() {

@@ -25,6 +25,10 @@ public class Carrier implements KeyboardHandler {
         show();
     }
 
+    public int getCol() {
+        return col;
+    }
+
     private void show() {
         carrier.fill();
         if (brick != null){
@@ -85,7 +89,7 @@ public class Carrier implements KeyboardHandler {
     }
 
     public void moveRight() {
-        if (col < 4) {
+        if (col < grid.getCols()-1) {
             //hide();
             col++;
             if (brick != null) {
