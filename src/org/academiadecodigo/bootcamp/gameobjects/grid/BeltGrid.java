@@ -8,14 +8,15 @@ public class BeltGrid extends Grid {
         super(cols, rows, rows);
     }
 
-    public void addNewBrick(Brick brick) {
+    public boolean addNewBrick(Brick brick) {
 
         for (int i = 0; i < bricks.length; i++) {
             if (bricks[i] == null) {
                 bricks[i] = brick;
-                break;
+                return true;
             }
         }
+        return false;
     }
 
     public void moveAllBricks() {
