@@ -11,6 +11,7 @@ public abstract class Grid implements Displayable {
     private int rows;
     protected Brick[] bricks;
     private Rectangle rectangle;
+    private final Color gridColor = Color.LIGHT_GRAY;
 
     public Grid(int cols, int rows, int maxBricks) {
         this.cols = cols;
@@ -28,12 +29,12 @@ public abstract class Grid implements Displayable {
 
 
     @Override
-    public void show(int x, int y, Color color) {
+    public void show(int x, int y) {
         if (rectangle == null) {
             rectangle = new Rectangle(x, y, cols * Game.BRICK_WIDTH, rows * Game.BRICK_HEIGHT);
         }
 
-        rectangle.setColor(color);
+        rectangle.setColor(gridColor);
         rectangle.fill();
 
     }
