@@ -28,20 +28,14 @@ public class Game {
         this.cols = cols;
     }
 
-  /*  public void init() {
-        beltGrid = new BeltGrid(cols, 10, Color.LIGHT_GRAY);
-        carrierGrid = new CarrierGrid(cols, 2, Color.BLACK);
-        stackGrid = new StackGrid(cols, 5, Color.LIGHT_GRAY);
-
-        beltGrid.moveDown(0);
-        carrierGrid.moveDown(beltGrid.getHeight());
-        stackGrid.moveDown(beltGrid.getHeight() + carrierGrid.getHeight());
+    public void init() {
+        beltGrid = new BeltGrid(cols, 10);
+        carrierGrid = new CarrierGrid(cols, 2);
+        stackGrid = new StackGrid(cols, 5);
+        carrier = new Carrier(carrierGrid);
 
         canvas.draw();
-        beltGrid.show();
-        carrierGrid.show();
-        stackGrid.show();
-    } */
+    }
 
     public void start() {
         // carrier.init();
@@ -50,9 +44,9 @@ public class Game {
 
             createBricks();
             moveBricks();
-            finalRowCheck();
-            endgame();
-            addPoints();
+            //finalRowCheck();
+            //endgame();
+            //addPoints();
         }
         
     }

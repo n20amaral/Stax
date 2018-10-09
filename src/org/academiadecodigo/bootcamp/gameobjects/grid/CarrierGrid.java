@@ -7,9 +7,8 @@ public class CarrierGrid extends Grid {
 
     private int cols;
 
-    private Brick[] releasedBricks = new Brick[5];
-    public CarrierGrid(int cols, int rows, int maxBricks) {
-        super(cols, rows, maxBricks);
+    public CarrierGrid(int cols, int rows) {
+        super(cols, rows, 5);
         this.cols = cols;
     }
 
@@ -18,15 +17,15 @@ public class CarrierGrid extends Grid {
     }
 
     public Brick[] getReleasedBricks() {
-        return releasedBricks;
+        return bricks;
     }
 
     public void addReleasedBrick(Brick releasedBrick) {
 
-        for (int i=0; i<releasedBricks.length; i++) {
+        for (int i=0; i< bricks.length; i++) {
 
-            if (releasedBricks[i] != null) {
-                releasedBricks[i] = releasedBrick;
+            if (bricks[i] != null) {
+                bricks[i] = releasedBrick;
             }
         }
     }

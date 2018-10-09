@@ -13,8 +13,8 @@ public class StackGrid extends Grid {
     private int cols;
 
 
-    public StackGrid(int cols, int rows, int maxBricks) {
-        super(cols, rows, maxBricks);
+    public StackGrid(int cols, int rows) {
+        super(cols, rows, 0);
 
         this.pointsScore = 0;
 

@@ -6,13 +6,11 @@ public class BrickFactory {
 
     public static Brick getNewBrick() {
 
-        Brick brick = new Brick();
 
-        int pickedColor = ((int) Math.random() * BrickColor.values().length);
-        brick.setColor(BrickColor.values()[pickedColor]);
+        int pickedColor = (int)(Math.random() * BrickColor.values().length);
+        int pickedColumn = (int)(Math.random() * Stax.MAX_COLS);
 
-        int pickedColumn = ((int) Math.random() * Stax.MAX_COLS);
-        brick.setCol(pickedColumn);
+        Brick brick = new Brick(pickedColumn, BrickColor.values()[pickedColor]);
 
         return brick;
     }
