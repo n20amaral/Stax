@@ -46,6 +46,16 @@ public class Brick implements Displayable {
         rectangle.translate(0, Game.BRICK_HEIGHT);
     }
 
+    public void moveLeft() {
+        col--;
+        rectangle.translate(0 - Game.BRICK_WIDTH, 0);
+    }
+
+    public void moveRight() {
+        col++;
+        rectangle.translate(Game.BRICK_WIDTH, 0);
+    }
+
     @Override
     public void show(int x, int y) {
         rectangle.setColor(Color.RED);
