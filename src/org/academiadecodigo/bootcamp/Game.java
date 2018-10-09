@@ -32,13 +32,17 @@ public class Game {
         beltGrid = new BeltGrid(cols, 10);
         carrierGrid = new CarrierGrid(cols, 2);
         stackGrid = new StackGrid(cols, 5);
-        carrier = new Carrier(carrierGrid);
 
         canvas.draw();
+        beltGrid.show(PADDING,PADDING);
+        carrierGrid.show(PADDING,PADDING + beltGrid.getHeight());
+        stackGrid.show(PADDING,PADDING + beltGrid.getHeight() + carrierGrid.getHeight());
+
+        carrier = new Carrier(carrierGrid);
+        carrier.init();
     }
 
     public void start() {
-        // carrier.init();
 
         while(!isGameOver()) {
 

@@ -1,5 +1,6 @@
 package org.academiadecodigo.bootcamp.gameobjects;
 
+import jdk.jshell.spi.ExecutionControl;
 import org.academiadecodigo.bootcamp.Game;
 import org.academiadecodigo.bootcamp.gameobjects.grid.*;
 import org.academiadecodigo.bootcamp.gameobjects.brick.*;
@@ -16,10 +17,14 @@ public class Carrier implements Displayable, KeyboardHandler {
     private int row;
     private Keyboard keyboard;
 
-    public Carrier(int col, int row, CarrierGrid grid) {
-        this.col = col;
-        this.row = row;
+    public Carrier(CarrierGrid grid) {
         this.grid = grid;
+        this.col = 0;
+        this.row = grid.getRows() - 1;
+        this.carrier = new Rectangle(Game.PADDING + col * Game.BRICK_WIDTH,
+                grid.getY() + row * Game.BRICK_HEIGHT,
+                Game.BRICK_WIDTH,
+                Game.BRICK_HEIGHT);
     }
 
     public int getCol() {
@@ -62,6 +67,8 @@ public class Carrier implements Displayable, KeyboardHandler {
         keyboard.addEventListener(right);
         keyboard.addEventListener(space);
 
+        carrier.setColor(color);
+        carrier.fill();
     }
 
     public void moveLeft() {
@@ -71,7 +78,7 @@ public class Carrier implements Displayable, KeyboardHandler {
                 brick.setCol(col);
             }
             //show();
-            // carrier.translate(0 - Game.BRICK_WIDTH, 0);
+            carrier.translate(0 - Game.BRICK_WIDTH, 0);
         }
 
     }
@@ -82,7 +89,7 @@ public class Carrier implements Displayable, KeyboardHandler {
             if (brick != null) {
                 brick.setCol(col);
             }
-            // carrier.translate(Game.BRICK_WIDTH, 0);
+            carrier.translate(Game.BRICK_WIDTH, 0);
             //show();
         }
 
@@ -113,11 +120,6 @@ public class Carrier implements Displayable, KeyboardHandler {
 
     @Override
     public void show(int x, int y) {
-        if (carrier == null) {
-            carrier = new Rectangle(x, y, Game.BRICK_WIDTH, Game.BRICK_HEIGHT);
-            carrier.setColor(color);
-        }
-        carrier.fill();
     }
 
     @Override
