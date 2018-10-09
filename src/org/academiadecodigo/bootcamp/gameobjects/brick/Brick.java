@@ -43,6 +43,7 @@ public class Brick implements Displayable {
 
     public void moveDown() {
         row++;
+        rectangle.translate(0, Game.BRICK_HEIGHT);
     }
 
     @Override
