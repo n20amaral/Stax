@@ -9,7 +9,8 @@ public enum BrickColor {
     PINK(Color.PINK),
     BLUE(Color.BLUE),
     YELLOW(Color.YELLOW),
-    GREEN(Color.GREEN);
+    GREEN(Color.GREEN),
+    CYAN(Color.CYAN);
 
     Color gfxColor;
 
