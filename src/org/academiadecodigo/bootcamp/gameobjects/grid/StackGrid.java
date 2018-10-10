@@ -6,7 +6,7 @@ public class StackGrid extends Grid {
 
     private int pointsScore;
 
-    private Brick[][] stackBrickRow;
+    private Brick[][] stackBrickCol;
     private Brick brickReceive;
 
     private int rows;
@@ -18,20 +18,20 @@ public class StackGrid extends Grid {
 
         this.pointsScore = 0;
 
-        this.stackBrickRow = new Brick[rows][];
+        this.stackBrickCol = new Brick[cols][];
 
         this.rows = rows;
 
         this.cols = cols;
 
-        createCol();
+        createRows();
     }
 
-    private void createCol() {
+    private void createRows() {
 
-        for (int i = 0; i < stackBrickRow.length; i++) {
+        for (int i = 0; i < stackBrickCol.length; i++) {
 
-            this.stackBrickRow[i] = new Brick[cols];
+            this.stackBrickCol[i] = new Brick[rows];
         }
 
     }
@@ -40,32 +40,38 @@ public class StackGrid extends Grid {
     public boolean receiveBrick(Brick[] brick) {
 
         int brickCol;
-        int brickRow = 0;
+        int brickRow;
 
 
         //Add brick on StackGrid
+
         for (int i = 0; i < brick.length; i++) {
 
 
             this.brickReceive = brick[i];
 
+            if (this.brickReceive == null) {
+                break;
+            }
+
+
             brickCol = brickReceive.getCol();
+            brickRow = 0;
 
-
-            if (brick[i].getRow() <= rows) {
+            if (brickRow >= rows) {
                 return false; //Game Over
             }
 
 
-            for (int e = 0; e < stackBrickRow.length; e++) {
-
-                if (!stackBrickRow[e][brickCol].equals(null)) {
+            for (int e = 0; e < stackBrickCol.length; e++) {
+                if (!(stackBrickCol[brickCol][e] == null)) {
 
                     continue;
                 }
 
-                stackBrickRow[e][brickCol] = brick[i];
+                stackBrickCol[brickCol][e] = this.brickReceive;
                 brickRow = e;
+
                 break;
 
             }
@@ -73,16 +79,16 @@ public class StackGrid extends Grid {
 
             //Check for score in Columns
 
-            if (!(brickCol == 0 || brickCol == 1)) {
+            if ((brickRow != 0 && brickRow != 1)) {
 
-                if ((stackBrickRow[brickRow][brickCol].getColor()).equals((stackBrickRow[brickRow][brickCol - 1].getColor())) &&
-                        (stackBrickRow[brickRow][brickCol].getColor()).equals(stackBrickRow[brickRow][brickCol - 2].getColor())) {
+                if ((stackBrickCol[brickCol][brickRow].getColor()) == (stackBrickCol[brickCol][brickRow - 1].getColor()) &&
+                        (stackBrickCol[brickCol][brickRow].getColor()) == (stackBrickCol[brickCol][brickRow - 2].getColor())) {
 
                     pointsScore += 50;
 
-                    stackBrickRow[brickRow][brickCol] = null;
-                    stackBrickRow[brickRow][brickCol - 1] = null;
-                    stackBrickRow[brickRow][brickCol - 2] = null;
+                    stackBrickCol[brickCol][brickRow].hide();
+                    stackBrickCol[brickCol][brickRow - 1].hide();
+                    stackBrickCol[brickCol][brickRow - 2].hide();
 
 
                 }
