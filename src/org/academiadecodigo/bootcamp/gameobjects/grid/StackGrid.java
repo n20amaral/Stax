@@ -42,8 +42,6 @@ public class StackGrid extends Grid {
 
         int brickCol = 0;
         int brickRow = 0;
-        int countBricks =0;
-
 
         //Add brick on StackGrid
 
@@ -58,21 +56,13 @@ public class StackGrid extends Grid {
 
 
             brickCol = brickReceive.getCol();
-            brickRow = 0;
 
-            for(int t=0; t<this.rows; t++){
-
-                if (stackBrickCol[brickCol][t] != null) {
-                    countBricks++;
-                }
+            //Check Game Over
+            if (stackBrickCol[brickCol][rows-1] != null) {
+                return false;
             }
 
-
-            if (countBricks == rows) {
-                return false; //Game Over
-            }
-
-
+            //Put block on Grid
             for (int e = 0; e < stackBrickCol.length; e++) {
                 if (!(stackBrickCol[brickCol][e] == null)) {
 
@@ -95,7 +85,7 @@ public class StackGrid extends Grid {
                 }
             }
 
-            //Check for score in Columns
+            //Check for score in Rows
 
             if ((brickRow != 0 && brickRow != 1)) {
 
