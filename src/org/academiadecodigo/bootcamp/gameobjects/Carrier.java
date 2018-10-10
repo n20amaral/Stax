@@ -1,6 +1,5 @@
 package org.academiadecodigo.bootcamp.gameobjects;
 
-import jdk.jshell.spi.ExecutionControl;
 import org.academiadecodigo.bootcamp.Game;
 import org.academiadecodigo.bootcamp.gameobjects.grid.*;
 import org.academiadecodigo.bootcamp.gameobjects.brick.*;
@@ -73,18 +72,21 @@ public class Carrier implements Displayable, KeyboardHandler {
     }
 
     public void moveLeft() {
+
         if (col > 0) {
             col--;
             carrier.translate(0 - Game.BRICK_WIDTH, 0);
-            brick.moveLeft();
+            if (brick != null) {
+                brick.moveLeft();
+            }
         }
 
     }
 
     public void moveRight() {
+
         if (col < grid.getCols() - 1) {
             col++;
-
             carrier.translate(Game.BRICK_WIDTH, 0);
             if (brick != null) {
                 brick.moveRight();

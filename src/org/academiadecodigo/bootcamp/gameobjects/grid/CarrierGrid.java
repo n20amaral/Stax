@@ -31,7 +31,7 @@ public class CarrierGrid extends Grid {
     }
 
     public void addReleasedBrick(Brick brick) {
-
+        brick.hide();
         for (int i = 0; i < bricks.length; i++) {
             if (bricks[i] == null) {
                 bricks[i] = brick;
