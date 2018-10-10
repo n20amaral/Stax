@@ -17,7 +17,7 @@ public enum BrickColor {
         this.gfxColor = color;
     }
 
-    public Color getColor(Color color) {
+    public Color getColor() {
         return gfxColor;
     }
 }

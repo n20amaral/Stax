@@ -58,7 +58,7 @@ public class Brick implements Displayable {
 
     @Override
     public void show(int x, int y) {
-        rectangle.setColor(Color.RED);
+        rectangle.setColor(color.getColor());
         rectangle.fill();
     }
 
