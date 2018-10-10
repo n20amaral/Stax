@@ -5,6 +5,7 @@ import org.academiadecodigo.bootcamp.gameobjects.Displayable;
 import org.academiadecodigo.bootcamp.gameobjects.brick.Brick;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 
 public abstract class Grid implements Displayable {
     private int cols;
@@ -27,6 +28,12 @@ public abstract class Grid implements Displayable {
         return this.cols;
     }
 
+    public void endgameMessage(String gameOver) {
+        Text text = new Text(Game.CANVAS_WIDTH / 2, Game.CANVAS_HEIGHT / 4, gameOver);
+        text.grow(100,100);
+        text.setColor(Color.RED);
+        text.draw();
+    }
 
     @Override
     public void show(int x, int y) {

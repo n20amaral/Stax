@@ -10,7 +10,7 @@ public class Carrier implements Displayable, KeyboardHandler {
 
     private CarrierGrid grid;
     private Rectangle carrier;
-    private Color color = Color.DARK_GRAY;
+    private Color color = Color.GRAY;
     private Brick brick;
     private int col;
     private int row;
@@ -21,7 +21,7 @@ public class Carrier implements Displayable, KeyboardHandler {
         this.grid = grid;
         this.col = 0;
         this.row = grid.getRows() - 1;
-        this.carrier = new Rectangle(Game.PADDING + col * Game.BRICK_WIDTH,
+        this.carrier = new Rectangle(Game.GRID_PADDING + col * Game.BRICK_WIDTH,
                 grid.getY() + row * Game.BRICK_HEIGHT,
                 Game.BRICK_WIDTH,
                 Game.BRICK_HEIGHT);

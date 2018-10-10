@@ -15,7 +15,7 @@ public class Brick implements Displayable {
     public Brick(int col, BrickColor color) {
         this.col = col;
         this.color = color;
-        rectangle = new Rectangle(col * Game.BRICK_WIDTH + Game.PADDING,
+        rectangle = new Rectangle(col * Game.BRICK_WIDTH + Game.GRID_PADDING,
                 row * Game.BRICK_HEIGHT +  Game.PADDING,
                 Game.BRICK_WIDTH,
                 Game.BRICK_HEIGHT);

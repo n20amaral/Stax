@@ -5,6 +5,7 @@ import org.academiadecodigo.bootcamp.gameobjects.brick.Brick;
 import org.academiadecodigo.bootcamp.gameobjects.brick.BrickFactory;
 import org.academiadecodigo.bootcamp.gameobjects.grid.*;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 
 public class Game {
     public static final int CANVAS_WIDTH = 800;
@@ -12,6 +13,7 @@ public class Game {
     public static final int PADDING = 10;
     public static final int BRICK_WIDTH = 70;
     public static final int BRICK_HEIGHT = 25;
+    public static final int GRID_PADDING = (CANVAS_WIDTH - Stax.MAX_COLS * BRICK_WIDTH) / 2 + PADDING;
 
 
     private int cols;
@@ -23,7 +25,8 @@ public class Game {
     private Carrier carrier;
     private Brick brick;
     private boolean gameOver;
-    private int step = 2;
+    private int step = 5;
+    private Text textScore = new Text(20,20,"Score: " + score);
 
     public Game(int cols) {
         this.cols = cols;
@@ -34,10 +37,14 @@ public class Game {
         carrierGrid = new CarrierGrid(cols, 2);
         stackGrid = new StackGrid(cols, 5);
 
+
+
         canvas.draw();
-        beltGrid.show(PADDING,PADDING);
-        carrierGrid.show(PADDING,PADDING + beltGrid.getHeight());
-        stackGrid.show(PADDING,PADDING + beltGrid.getHeight() + carrierGrid.getHeight());
+        textScore.grow(10,10);
+        textScore.draw();
+        beltGrid.show(GRID_PADDING,PADDING);
+        carrierGrid.show(GRID_PADDING,PADDING + beltGrid.getHeight());
+        stackGrid.show(GRID_PADDING,PADDING + beltGrid.getHeight() + carrierGrid.getHeight());
 
         carrier = new Carrier(carrierGrid);
         carrier.init();
@@ -46,9 +53,9 @@ public class Game {
     public void start() throws InterruptedException {
 
         while(!isGameOver()) {
-            Thread.sleep(500);
+            Thread.sleep(250);
 
-            if (step == 2) {
+            if (step == 5) {
                 createBricks();
                 step = 0;
             } else {
@@ -58,7 +65,7 @@ public class Game {
             moveBricks();
             finalRowCheck();
             droppedbricks();
-            //addPoints();
+            addPoints();
         }
         
     }
@@ -99,11 +106,15 @@ public class Game {
     private void addPoints() {
 
         score += stackGrid.resetPointsScore();
+        textScore.setText("Score: " + score);
+        textScore.draw();
+
     }
 
     private void endgame() {
-        System.out.printf("GAME OVER");
-       setGameOver();
+        carrier.setStop();
+        beltGrid.endgameMessage("Game Over");
+        setGameOver();
     }
 
     private boolean isGameOver() {

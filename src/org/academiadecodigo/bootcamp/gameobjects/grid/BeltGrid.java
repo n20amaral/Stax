@@ -48,7 +48,8 @@ public class BeltGrid extends Grid {
         return fallingBrick;
     }
 
-
-
-
+    @Override
+    public void endgameMessage(String gameOver) {
+        super.endgameMessage(gameOver);
+    }
 }
