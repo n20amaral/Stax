@@ -10,7 +10,7 @@ public abstract class Grid implements Displayable {
     private int cols;
     private int rows;
     protected Brick[] bricks;
-    private Rectangle rectangle;
+    protected Rectangle rectangle;
     private final Color gridColor = Color.LIGHT_GRAY;
 
     public Grid(int cols, int rows, int maxBricks) {

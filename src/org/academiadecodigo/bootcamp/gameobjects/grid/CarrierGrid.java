@@ -16,17 +16,35 @@ public class CarrierGrid extends Grid {
         return cols;
     }
 
-    public Brick[] getReleasedBricks() {
-        return bricks;
-    }
-
-    public void addReleasedBrick(Brick releasedBrick) {
-
-        for (int i=0; i< bricks.length; i++) {
-
+    private boolean isAnyReleasedBricks(){
+        for (int i = 0; i < bricks.length; i++) {
             if (bricks[i] != null) {
-                bricks[i] = releasedBrick;
+                return true;
             }
         }
+
+        return false;
+    }
+
+    public Brick[] getReleasedBricks() {
+        return isAnyReleasedBricks() ?  bricks : null;
+    }
+
+    public void addReleasedBrick(Brick brick) {
+
+        for (int i = 0; i < bricks.length; i++) {
+            if (bricks[i] == null) {
+                bricks[i] = brick;
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void show(int x, int y) {
+        super.show(x,y);
+        rectangle.setColor(Color.BLACK);
+        rectangle.fill();
+
     }
 }

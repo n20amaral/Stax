@@ -21,8 +21,9 @@ public class Game {
     private CarrierGrid carrierGrid;
     private StackGrid stackGrid;
     private Carrier carrier;
+    private Brick brick;
     private boolean gameOver;
-     
+    private int step = 2;
 
     public Game(int cols) {
         this.cols = cols;
@@ -42,21 +43,31 @@ public class Game {
         carrier.init();
     }
 
-    public void start() {
+    public void start() throws InterruptedException {
 
         while(!isGameOver()) {
+            Thread.sleep(500);
 
-            createBricks();
+            if (step == 2) {
+                createBricks();
+                step = 0;
+            } else {
+                step++;
+            }
+
             moveBricks();
-            //finalRowCheck();
-            //endgame();
+            finalRowCheck();
+            droppedbricks();
             //addPoints();
         }
         
     }
 
     private void createBricks() {
-        beltGrid.addNewBrick(BrickFactory.getNewBrick());
+        Brick brick = BrickFactory.getNewBrick();
+        if(beltGrid.addNewBrick(brick)) {
+            brick.show(Game.PADDING + brick.getCol() * Game.BRICK_WIDTH, Game.PADDING);
+        }
     }
 
     private void moveBricks() {
@@ -67,14 +78,23 @@ public class Game {
 
         Brick brick = beltGrid.getFallingBrick();
 
-        if (carrier.getCol() == brick.getCol()){
-            carrier.addBrick(brick);
+        if (brick == null)
+            return;
+
+        if (!carrier.addBrick(brick)){
+            brick.hide();
         }
     }
 
-    private Brick[] droppedbricks() {
+    private void droppedbricks() {
 
-        return carrierGrid.getReleasedBricks();
+        Brick[] bricks = carrierGrid.getReleasedBricks();
+
+        if (bricks != null && !stackGrid.receiveBrick(bricks)) {
+            endgame();
+
+        }
+
     }
 
     private void addPoints() {
@@ -83,13 +103,8 @@ public class Game {
     }
 
     private void endgame() {
-
-        if (!stackGrid.receiveBrick(droppedbricks())) {
-            setGameOver();
-
-        }   else {
-            addPoints();
-        }
+        System.out.printf("GAME OVER");
+       setGameOver();
     }
 
     private boolean isGameOver() {

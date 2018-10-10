@@ -31,19 +31,20 @@ public class Carrier implements Displayable, KeyboardHandler {
         return col;
     }
 
-    public void addBrick(Brick brick) {
-        if (brick.getCol() == col && this.brick != null) {
+    public boolean addBrick(Brick brick) {
+        if (brick.getCol() == col && this.brick == null) {
             this.brick = brick;
             brick.setRow(row - 1);
-
+            return true;
         }
+        return false;
     }
 
     private void releaseBrick() {
 
         if (brick != null) {
             grid.addReleasedBrick(brick);
-            brick = null;
+            this.brick = null;
         }
     }
 
@@ -74,11 +75,8 @@ public class Carrier implements Displayable, KeyboardHandler {
     public void moveLeft() {
         if (col > 0) {
             col--;
-            if (brick != null) {
-                brick.setCol(col);
-            }
-            //show();
             carrier.translate(0 - Game.BRICK_WIDTH, 0);
+            brick.moveLeft();
         }
 
     }
@@ -86,11 +84,11 @@ public class Carrier implements Displayable, KeyboardHandler {
     public void moveRight() {
         if (col < grid.getCols() - 1) {
             col++;
-            if (brick != null) {
-                brick.setCol(col);
-            }
+
             carrier.translate(Game.BRICK_WIDTH, 0);
-            //show();
+            if (brick != null) {
+                brick.moveRight();
+            }
         }
 
     }
