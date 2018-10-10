@@ -92,7 +92,6 @@ public class Game {
 
         if (bricks != null && !stackGrid.receiveBrick(bricks)) {
             endgame();
-
         }
 
     }

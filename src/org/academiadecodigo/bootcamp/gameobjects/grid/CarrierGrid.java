@@ -3,6 +3,9 @@ package org.academiadecodigo.bootcamp.gameobjects.grid;
 import org.academiadecodigo.bootcamp.gameobjects.brick.Brick;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 
+import java.text.CollationElementIterator;
+import java.util.Collections;
+
 public class CarrierGrid extends Grid {
 
     private int cols;
@@ -27,7 +30,16 @@ public class CarrierGrid extends Grid {
     }
 
     public Brick[] getReleasedBricks() {
-        return isAnyReleasedBricks() ?  bricks : null;
+        if (isAnyReleasedBricks()) {
+            Brick[] toRelease = bricks.clone();
+
+            for (int i = 0; i < bricks.length; i++) {
+                bricks[i] = null;
+            }
+            return toRelease;
+        }
+
+        return null;
     }
 
     public void addReleasedBrick(Brick brick) {

@@ -39,8 +39,9 @@ public class StackGrid extends Grid {
 
     public boolean receiveBrick(Brick[] brick) {
 
-        int brickCol;
-        int brickRow;
+
+        int brickCol = 0;
+        int brickRow = 0;
 
 
         //Add brick on StackGrid
@@ -71,11 +72,19 @@ public class StackGrid extends Grid {
 
                 stackBrickCol[brickCol][e] = this.brickReceive;
                 brickRow = e;
-
                 break;
-
             }
 
+            if (brickReceive != null) {
+                Brick myBrick = brickReceive;
+                myBrick.show(rectangle.getX(), rectangle.getY());
+                int moveDown = myBrick.getRow();
+                myBrick.setRow(0);
+
+                for (int j = 0; j <= rows - brickRow; j++) {
+                    myBrick.moveDown();
+                }
+            }
 
             //Check for score in Columns
 
@@ -90,9 +99,15 @@ public class StackGrid extends Grid {
                     stackBrickCol[brickCol][brickRow - 1].hide();
                     stackBrickCol[brickCol][brickRow - 2].hide();
 
+                    stackBrickCol[brickCol][brickRow] = null;
+                    stackBrickCol[brickCol][brickRow - 1] = null;
+                    stackBrickCol[brickCol][brickRow - 2] = null;
+
 
                 }
             }
+
+
 
 
         }
