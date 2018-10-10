@@ -15,6 +15,7 @@ public class Carrier implements Displayable, KeyboardHandler {
     private int col;
     private int row;
     private Keyboard keyboard;
+    private boolean stop = false;
 
     public Carrier(CarrierGrid grid) {
         this.grid = grid;
@@ -28,6 +29,10 @@ public class Carrier implements Displayable, KeyboardHandler {
 
     public int getCol() {
         return col;
+    }
+
+    public void setStop() {
+        stop = true;
     }
 
     public boolean addBrick(Brick brick) {
@@ -97,18 +102,18 @@ public class Carrier implements Displayable, KeyboardHandler {
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
+        if (stop) {
+            return;
+        }
         switch (keyboardEvent.getKey()) {
             case KeyboardEvent.KEY_LEFT:
                 moveLeft();
-                System.out.println("LEFT");
                 break;
             case KeyboardEvent.KEY_RIGHT:
                 moveRight();
-                System.out.println("RIGHT");
                 break;
             case KeyboardEvent.KEY_SPACE:
                 releaseBrick();
-                System.out.println("SPACE");
                 break;
         }
     }
