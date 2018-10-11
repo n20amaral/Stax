@@ -11,9 +11,15 @@ import java.net.URL;
 public class Music {
 
     private boolean loop;
+    private String audioPath;
+
+    public Music(String audioPath, boolean loop) {
+        this.audioPath = audioPath;
+        this.loop = loop;
+    }
 
     public void startMusic() {
-        String pathStr = "/resources/VoiceVerde.wav";
+        String pathStr = audioPath;
         URL soundURL;
         AudioInputStream audioInputStream = null;
         try {
