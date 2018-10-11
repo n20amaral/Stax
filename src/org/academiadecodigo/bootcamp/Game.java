@@ -6,6 +6,7 @@ import org.academiadecodigo.bootcamp.gameobjects.brick.BrickFactory;
 import org.academiadecodigo.bootcamp.gameobjects.grid.*;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.graphics.Text;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Game {
     public static final int CANVAS_WIDTH = 800;
@@ -27,6 +28,7 @@ public class Game {
     private boolean gameOver;
     private int step = 5;
     private Text textScore = new Text(20,20,"Score: " + score);
+    private Picture backGroundImage = new Picture(PADDING, PADDING, "resources/background.jpg" );
 
     public Game(int cols) {
         this.cols = cols;
@@ -40,11 +42,13 @@ public class Game {
 
 
         canvas.draw();
+        backGroundImage.draw();
         textScore.grow(10,10);
         textScore.draw();
         beltGrid.show(GRID_PADDING,PADDING);
         carrierGrid.show(GRID_PADDING,PADDING + beltGrid.getHeight());
         stackGrid.show(GRID_PADDING,PADDING + beltGrid.getHeight() + carrierGrid.getHeight());
+
 
         carrier = new Carrier(carrierGrid);
         carrier.init();

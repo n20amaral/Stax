@@ -12,7 +12,7 @@ public abstract class Grid implements Displayable {
     private int rows;
     protected Brick[] bricks;
     protected Rectangle rectangle;
-    private final Color gridColor = Color.LIGHT_GRAY;
+    private final Color gridColor = Color.BLACK;
 
     public Grid(int cols, int rows, int maxBricks) {
         this.cols = cols;
@@ -42,7 +42,7 @@ public abstract class Grid implements Displayable {
         }
 
         rectangle.setColor(gridColor);
-        rectangle.fill();
+        rectangle.draw();
 
     }
 
