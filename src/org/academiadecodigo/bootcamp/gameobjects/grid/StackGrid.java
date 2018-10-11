@@ -168,7 +168,7 @@ public class StackGrid extends Grid {
         }
 
 
-        if (cleanBlock) {
+        if (cleanBlock && stackBrickCol[col][row] != null) {
             stackBrickCol[col][row].hide();
             stackBrickCol[col][row] = null;
         }
