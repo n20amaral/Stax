@@ -31,7 +31,7 @@ public abstract class Grid implements Displayable {
 
     public void endgameMessage(String gameOver) {
         gameMessage = new Text(Game.CANVAS_WIDTH / 2, Game.CANVAS_HEIGHT / 4, gameOver);
-        gameMessage.grow(100,100);
+        gameMessage.grow(100, 100);
         gameMessage.setColor(Color.RED);
         gameMessage.draw();
     }

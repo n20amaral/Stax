@@ -3,9 +3,6 @@ package org.academiadecodigo.bootcamp.gameobjects.grid;
 import org.academiadecodigo.bootcamp.gameobjects.brick.Brick;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 
-import java.text.CollationElementIterator;
-import java.util.Collections;
-
 public class CarrierGrid extends Grid {
 
     private int cols;
@@ -19,7 +16,7 @@ public class CarrierGrid extends Grid {
         return cols;
     }
 
-    private boolean isAnyReleasedBricks(){
+    private boolean isAnyReleasedBricks() {
         for (int i = 0; i < bricks.length; i++) {
             if (bricks[i] != null) {
                 return true;
@@ -54,7 +51,7 @@ public class CarrierGrid extends Grid {
 
     @Override
     public void show(int x, int y) {
-        super.show(x,y);
+        super.show(x, y);
         rectangle.setColor(Color.BLACK);
         rectangle.draw();
 

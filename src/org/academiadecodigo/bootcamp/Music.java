@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.net.URL;
 
 
-// Change this class to your liking, this is just a base example
-
 public class Music {
 
     private boolean loop;

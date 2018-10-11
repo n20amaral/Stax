@@ -2,7 +2,6 @@ package org.academiadecodigo.bootcamp.gameobjects.brick;
 
 import org.academiadecodigo.bootcamp.Game;
 import org.academiadecodigo.bootcamp.gameobjects.Displayable;
-import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
 public class Brick implements Displayable {
@@ -16,7 +15,7 @@ public class Brick implements Displayable {
         this.col = col;
         this.color = color;
         rectangle = new Rectangle(col * Game.BRICK_WIDTH + Game.GRID_PADDING,
-                row * Game.BRICK_HEIGHT +  Game.PADDING,
+                row * Game.BRICK_HEIGHT + Game.PADDING,
                 Game.BRICK_WIDTH,
                 Game.BRICK_HEIGHT);
     }
@@ -31,10 +30,6 @@ public class Brick implements Displayable {
 
     public int getRow() {
         return row;
-    }
-
-    public void setCol(int col) {
-        this.col = col;
     }
 
     public void setRow(int row) {

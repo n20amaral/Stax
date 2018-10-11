@@ -1,12 +1,9 @@
 package org.academiadecodigo.bootcamp;
 
 import org.academiadecodigo.bootcamp.gameobjects.Carrier;
-import org.academiadecodigo.bootcamp.gameobjects.brick.Brick;
-import org.academiadecodigo.bootcamp.gameobjects.brick.BrickFactory;
+import org.academiadecodigo.bootcamp.gameobjects.brick.*;
 import org.academiadecodigo.bootcamp.gameobjects.grid.*;
-import org.academiadecodigo.simplegraphics.graphics.Color;
-import org.academiadecodigo.simplegraphics.graphics.Rectangle;
-import org.academiadecodigo.simplegraphics.graphics.Text;
+import org.academiadecodigo.simplegraphics.graphics.*;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Game {
@@ -28,10 +25,10 @@ public class Game {
     private Carrier carrier;
     private boolean gameOver;
     private int step = 5;
-    private Text textScore = new Text(30,20,"Score: " + score);
-    private Text textLives = new Text(30, 60,"Lives: " + lives);
+    private Text textScore = new Text(30, 20, "Score: " + score);
+    private Text textLives = new Text(30, 60, "Lives: " + lives);
     private Text textPress = new Text(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, "Press R");
-    private Picture backGroundImage = new Picture(PADDING, PADDING, "resources/background.jpg" );
+    private Picture backGroundImage = new Picture(PADDING, PADDING, "resources/background.jpg");
 
     public Game(int cols) {
         this.cols = cols;
@@ -43,19 +40,18 @@ public class Game {
         stackGrid = new StackGrid(cols, 5);
 
 
-
         canvas.draw();
         backGroundImage.draw();
-        textScore.grow(20,20);
+        textScore.grow(20, 20);
         textScore.setColor(Color.WHITE);
         textScore.draw();
-        textLives.grow(20,20);
+        textLives.grow(20, 20);
         textLives.setColor(Color.WHITE);
         textLives.draw();
-        beltGrid.show(GRID_PADDING,PADDING);
-        carrierGrid.show(GRID_PADDING,PADDING + beltGrid.getHeight());
-        stackGrid.show(GRID_PADDING,PADDING + beltGrid.getHeight() + carrierGrid.getHeight());
-        textPress.grow(50,50);
+        beltGrid.show(GRID_PADDING, PADDING);
+        carrierGrid.show(GRID_PADDING, PADDING + beltGrid.getHeight());
+        stackGrid.show(GRID_PADDING, PADDING + beltGrid.getHeight() + carrierGrid.getHeight());
+        textPress.grow(50, 50);
         textPress.setColor(Color.RED);
 
         carrier = new Carrier(carrierGrid);
@@ -67,7 +63,7 @@ public class Game {
         Music music = new Music("/resources/music.wav", true);
         music.startMusic();
 
-        while(!isGameOver()) {
+        while (!isGameOver()) {
 
             if (step == 5) {
                 createBricks();
@@ -97,7 +93,7 @@ public class Game {
 
     private void createBricks() {
         Brick brick = BrickFactory.getNewBrick();
-        if(beltGrid.addNewBrick(brick)) {
+        if (beltGrid.addNewBrick(brick)) {
             brick.show(Game.PADDING + brick.getCol() * Game.BRICK_WIDTH, Game.PADDING);
         }
     }
@@ -113,7 +109,7 @@ public class Game {
         if (brick == null)
             return;
 
-        if (!carrier.addBrick(brick)){
+        if (!carrier.addBrick(brick)) {
             brick.hide();
             this.lives--;
             textLives.setText("Lives: " + lives);
