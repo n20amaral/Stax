@@ -16,6 +16,7 @@ public class Game {
     public static final int BRICK_WIDTH = 70;
     public static final int BRICK_HEIGHT = 25;
     public static final int GRID_PADDING = (CANVAS_WIDTH - Stax.MAX_COLS * BRICK_WIDTH) / 2 + PADDING;
+    private static boolean resetStatus = false;
 
     private int lives = 5;
     private int cols;
@@ -25,11 +26,11 @@ public class Game {
     private CarrierGrid carrierGrid;
     private StackGrid stackGrid;
     private Carrier carrier;
-    private Brick brick;
     private boolean gameOver;
     private int step = 5;
     private Text textScore = new Text(30,20,"Score: " + score);
     private Text textLives = new Text(30, 60,"Lives: " + lives);
+    private Text textPress = new Text(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, "Press R");
     private Picture backGroundImage = new Picture(PADDING, PADDING, "resources/background.jpg" );
 
     public Game(int cols) {
@@ -54,6 +55,8 @@ public class Game {
         beltGrid.show(GRID_PADDING,PADDING);
         carrierGrid.show(GRID_PADDING,PADDING + beltGrid.getHeight());
         stackGrid.show(GRID_PADDING,PADDING + beltGrid.getHeight() + carrierGrid.getHeight());
+        textPress.grow(50,50);
+        textPress.setColor(Color.RED);
 
         carrier = new Carrier(carrierGrid);
         carrier.init();
@@ -62,7 +65,6 @@ public class Game {
     public void start() throws InterruptedException {
 
         while(!isGameOver()) {
-            Thread.sleep(250);
 
             if (step == 5) {
                 createBricks();
@@ -71,12 +73,23 @@ public class Game {
                 step++;
             }
 
+            Thread.sleep(250);
+
             moveBricks();
             finalRowCheck();
             droppedbricks();
             addPoints();
         }
-        
+
+        while (true) {
+            Thread.sleep(100);
+            if (resetStatus == true) {
+                reset();
+                break;
+            }
+        }
+
+        start();
     }
 
     private void createBricks() {
@@ -128,8 +141,9 @@ public class Game {
     }
 
     private void endgame() {
-        carrier.setStop();
+        carrier.setStop(true);
         beltGrid.endgameMessage("Game Over");
+        textPress.draw();
         setGameOver();
     }
 
@@ -139,5 +153,27 @@ public class Game {
 
     public void setGameOver() {
         this.gameOver = true;
+    }
+
+    public void reset() {
+        beltGrid.reset();
+        carrierGrid.reset();
+        stackGrid.reset();
+        carrier.reset();
+        carrier.setStop(false);
+        beltGrid.hideMessage();
+        textPress.delete();
+        lives = 5;
+        textLives.setText("Lives: " + lives);
+        textLives.draw();
+        score = 0;
+        textScore.setText("Score: " + score);
+        textScore.draw();
+        gameOver = false;
+        resetStatus = false;
+    }
+
+    public static void setReset() {
+        resetStatus = true;
     }
 }

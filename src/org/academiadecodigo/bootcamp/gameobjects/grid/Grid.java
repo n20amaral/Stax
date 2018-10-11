@@ -13,6 +13,7 @@ public abstract class Grid implements Displayable {
     protected Brick[] bricks;
     protected Rectangle rectangle;
     private final Color gridColor = Color.BLACK;
+    private Text gameMessage;
 
     public Grid(int cols, int rows, int maxBricks) {
         this.cols = cols;
@@ -29,10 +30,10 @@ public abstract class Grid implements Displayable {
     }
 
     public void endgameMessage(String gameOver) {
-        Text text = new Text(Game.CANVAS_WIDTH / 2, Game.CANVAS_HEIGHT / 4, gameOver);
-        text.grow(100,100);
-        text.setColor(Color.RED);
-        text.draw();
+        gameMessage = new Text(Game.CANVAS_WIDTH / 2, Game.CANVAS_HEIGHT / 4, gameOver);
+        gameMessage.grow(100,100);
+        gameMessage.setColor(Color.RED);
+        gameMessage.draw();
     }
 
     @Override
@@ -69,5 +70,18 @@ public abstract class Grid implements Displayable {
     @Override
     public int getHeight() {
         return rectangle.getHeight();
+    }
+
+    public void hideMessage() {
+        gameMessage.delete();
+    }
+
+    public void reset() {
+        for (int i = 0; i < bricks.length; i++) {
+            if (bricks[i] != null) {
+                bricks[i].hide();
+                bricks[i] = null;
+            }
+        }
     }
 }

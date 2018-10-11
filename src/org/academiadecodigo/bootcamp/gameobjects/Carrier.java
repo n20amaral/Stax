@@ -31,8 +31,8 @@ public class Carrier implements Displayable, KeyboardHandler {
 
     }
 
-    public void setStop() {
-        stop = true;
+    public void setStop(boolean toStop) {
+        stop = toStop;
     }
 
     public boolean addBrick(Brick brick) {
@@ -59,18 +59,22 @@ public class Carrier implements Displayable, KeyboardHandler {
         KeyboardEvent left = new KeyboardEvent();
         KeyboardEvent right = new KeyboardEvent();
         KeyboardEvent space = new KeyboardEvent();
+        KeyboardEvent r = new KeyboardEvent();
 
         left.setKey(KeyboardEvent.KEY_LEFT);
         right.setKey(KeyboardEvent.KEY_RIGHT);
         space.setKey(KeyboardEvent.KEY_SPACE);
+        r.setKey(KeyboardEvent.KEY_R);
 
         left.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         right.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         space.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        r.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
         keyboard.addEventListener(left);
         keyboard.addEventListener(right);
         keyboard.addEventListener(space);
+        keyboard.addEventListener(r);
 
         carrier.setColor(color);
         carrier.fill();
@@ -106,6 +110,9 @@ public class Carrier implements Displayable, KeyboardHandler {
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
         if (stop) {
+            if (keyboardEvent.getKey() == KeyboardEvent.KEY_R) {
+                Game.setReset();
+            }
             return;
         }
         switch (keyboardEvent.getKey()) {
@@ -118,6 +125,7 @@ public class Carrier implements Displayable, KeyboardHandler {
             case KeyboardEvent.KEY_SPACE:
                 releaseBrick();
                 break;
+
         }
     }
 
@@ -133,6 +141,7 @@ public class Carrier implements Displayable, KeyboardHandler {
     @Override
     public void hide() {
         carrier.delete();
+        carrierImg.delete();
     }
 
     @Override
@@ -154,4 +163,12 @@ public class Carrier implements Displayable, KeyboardHandler {
     public int getHeight() {
         return carrier.getHeight();
     }
+
+    public void reset() {
+        if (brick != null) {
+            brick.hide();
+            brick = null;
+        }
+    }
+
 }

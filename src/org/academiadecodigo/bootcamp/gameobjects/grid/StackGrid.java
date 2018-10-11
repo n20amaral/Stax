@@ -126,5 +126,18 @@ public class StackGrid extends Grid {
 
     }
 
+    @Override
+    public void reset() {
+        super.reset();
+        for (int i = 0; i < stackBrickCol.length; i++) {
+            for (int j = 0; j < stackBrickCol.length; j++) {
+                if (stackBrickCol[i][j] != null) {
+                    stackBrickCol[i][j].hide();
+                    stackBrickCol[i][j] = null;
+                }
+            }
+        }
+    }
+
 
 }

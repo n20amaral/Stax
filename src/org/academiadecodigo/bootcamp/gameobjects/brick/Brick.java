@@ -86,4 +86,5 @@ public class Brick implements Displayable {
     public int getHeight() {
         return rectangle.getHeight();
     }
+
 }
