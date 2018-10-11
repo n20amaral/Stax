@@ -56,7 +56,7 @@ public class CarrierGrid extends Grid {
     public void show(int x, int y) {
         super.show(x,y);
         rectangle.setColor(Color.BLACK);
-        rectangle.fill();
+        rectangle.draw();
 
     }
 }
