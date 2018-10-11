@@ -4,8 +4,10 @@ import org.academiadecodigo.bootcamp.gameobjects.Carrier;
 import org.academiadecodigo.bootcamp.gameobjects.brick.Brick;
 import org.academiadecodigo.bootcamp.gameobjects.brick.BrickFactory;
 import org.academiadecodigo.bootcamp.gameobjects.grid.*;
+import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.graphics.Text;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Game {
     public static final int CANVAS_WIDTH = 800;
@@ -28,6 +30,7 @@ public class Game {
     private int step = 5;
     private Text textScore = new Text(30,20,"Score: " + score);
     private Text textLives = new Text(30, 60,"Lives: " + lives);
+    private Picture backGroundImage = new Picture(PADDING, PADDING, "resources/background.jpg" );
 
     public Game(int cols) {
         this.cols = cols;
@@ -41,9 +44,12 @@ public class Game {
 
 
         canvas.draw();
+        backGroundImage.draw();
         textScore.grow(20,20);
+        textScore.setColor(Color.WHITE);
         textScore.draw();
         textLives.grow(20,20);
+        textLives.setColor(Color.WHITE);
         textLives.draw();
         beltGrid.show(GRID_PADDING,PADDING);
         carrierGrid.show(GRID_PADDING,PADDING + beltGrid.getHeight());
