@@ -12,7 +12,7 @@ public class Carrier implements Displayable, KeyboardHandler {
     private CarrierGrid grid;
     private Rectangle carrier;
     private Picture carrierImg;
-    private Color color = Color.GRAY;
+    private Color color = Color.WHITE;
     private Brick brick;
     private int col;
     private int row;
@@ -73,7 +73,7 @@ public class Carrier implements Displayable, KeyboardHandler {
         keyboard.addEventListener(space);
 
         carrier.setColor(color);
-        carrier.draw();
+        carrier.fill();
         carrierImg.draw();
     }
 
