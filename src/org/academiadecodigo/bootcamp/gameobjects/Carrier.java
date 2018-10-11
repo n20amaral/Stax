@@ -1,6 +1,7 @@
 package org.academiadecodigo.bootcamp.gameobjects;
 
 import org.academiadecodigo.bootcamp.Game;
+import org.academiadecodigo.bootcamp.Music;
 import org.academiadecodigo.bootcamp.gameobjects.grid.*;
 import org.academiadecodigo.bootcamp.gameobjects.brick.*;
 import org.academiadecodigo.simplegraphics.graphics.*;
@@ -38,6 +39,8 @@ public class Carrier implements Displayable, KeyboardHandler {
     public boolean addBrick(Brick brick) {
         if (brick.getCol() == col && this.brick == null) {
             this.brick = brick;
+            Music music = new Music("/resources/VoiceGreen.wav",false);
+            music.startMusic();
             brick.setRow(row - 1);
             return true;
         }
