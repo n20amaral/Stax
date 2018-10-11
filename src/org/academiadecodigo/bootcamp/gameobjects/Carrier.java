@@ -39,7 +39,7 @@ public class Carrier implements Displayable, KeyboardHandler {
     public boolean addBrick(Brick brick) {
         if (brick.getCol() == col && this.brick == null) {
             this.brick = brick;
-            Music music = new Music("/resources/VoiceGreen.wav",false);
+            Music music = new Music(brick.getColor().getAudioPath(),false);
             music.startMusic();
             brick.setRow(row - 1);
             return true;
