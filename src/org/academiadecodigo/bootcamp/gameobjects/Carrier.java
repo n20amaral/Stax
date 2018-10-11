@@ -5,12 +5,14 @@ import org.academiadecodigo.bootcamp.gameobjects.grid.*;
 import org.academiadecodigo.bootcamp.gameobjects.brick.*;
 import org.academiadecodigo.simplegraphics.graphics.*;
 import org.academiadecodigo.simplegraphics.keyboard.*;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Carrier implements Displayable, KeyboardHandler {
 
     private CarrierGrid grid;
     private Rectangle carrier;
-    private Color color = Color.GRAY;
+    private Picture carrierImg;
+    private Color color = Color.WHITE;
     private Brick brick;
     private int col;
     private int row;
@@ -25,10 +27,8 @@ public class Carrier implements Displayable, KeyboardHandler {
                 grid.getY() + row * Game.BRICK_HEIGHT,
                 Game.BRICK_WIDTH,
                 Game.BRICK_HEIGHT);
-    }
+        this.carrierImg = new Picture(Game.GRID_PADDING + col * Game.BRICK_WIDTH,grid.getY() + row * Game.BRICK_HEIGHT, "resources/jvm.png" );
 
-    public int getCol() {
-        return col;
     }
 
     public void setStop() {
@@ -74,12 +74,14 @@ public class Carrier implements Displayable, KeyboardHandler {
 
         carrier.setColor(color);
         carrier.fill();
+        carrierImg.draw();
     }
 
     public void moveLeft() {
 
         if (col > 0) {
             col--;
+            carrierImg.translate(0 - Game.BRICK_WIDTH, 0);
             carrier.translate(0 - Game.BRICK_WIDTH, 0);
             if (brick != null) {
                 brick.moveLeft();
@@ -92,6 +94,7 @@ public class Carrier implements Displayable, KeyboardHandler {
 
         if (col < grid.getCols() - 1) {
             col++;
+            carrierImg.translate(Game.BRICK_WIDTH, 0);
             carrier.translate(Game.BRICK_WIDTH, 0);
             if (brick != null) {
                 brick.moveRight();
