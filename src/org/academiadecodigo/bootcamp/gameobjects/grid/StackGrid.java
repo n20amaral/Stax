@@ -78,7 +78,6 @@ public class StackGrid extends Grid {
             if (brickReceive != null) {
                 Brick myBrick = brickReceive;
                 myBrick.show(rectangle.getX(), rectangle.getY());
-                myBrick.setRow(0);
 
                 for (int j = 0; j <= rows - brickRow; j++) {
                     myBrick.moveDown();
@@ -312,7 +311,6 @@ public class StackGrid extends Grid {
 
                 Brick myBrick = stackBrickCol[col][i - 1];
                 myBrick.show(rectangle.getX(), rectangle.getY());
-                myBrick.setRow(0);
 
                 myBrick.moveDown();
 
