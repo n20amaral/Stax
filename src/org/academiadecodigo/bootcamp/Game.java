@@ -60,8 +60,7 @@ public class Game {
 
     public void start() throws InterruptedException {
 
-        Music music = new Music("/resources/music.wav", true);
-        music.startMusic();
+        new Music("/resources/music.wav", true).startMusic();
 
         while (!isGameOver()) {
 
@@ -141,8 +140,7 @@ public class Game {
 
     private void endgame() {
         carrier.setStop(true);
-        Music gameOver = new Music("/resources/gameover.wav", false);
-        gameOver.startMusic();
+        new Music("/resources/gameover.wav", false).startMusic();
         beltGrid.endgameMessage("Game Over");
         textPress.draw();
         setGameOver();

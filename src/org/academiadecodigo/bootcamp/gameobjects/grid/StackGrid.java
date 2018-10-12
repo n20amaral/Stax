@@ -1,5 +1,6 @@
 package org.academiadecodigo.bootcamp.gameobjects.grid;
 
+import org.academiadecodigo.bootcamp.Music;
 import org.academiadecodigo.bootcamp.gameobjects.brick.Brick;
 
 public class StackGrid extends Grid {
@@ -98,6 +99,9 @@ public class StackGrid extends Grid {
 
         int pointToReturn = pointsScore;
         pointsScore = 0;
+        if (pointToReturn > 0) {
+            new Music("/resources/score.wav",false).startMusic();
+        }
 
         return pointToReturn;
 
