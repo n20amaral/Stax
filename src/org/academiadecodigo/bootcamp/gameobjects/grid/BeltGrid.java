@@ -20,13 +20,13 @@ public class BeltGrid extends Grid {
     }
 
     public void moveAllBricks() {
-        for (int i = 0; i < bricks.length; i++) {
+        for (Brick brick : bricks) {
 
-            if (bricks[i] == null) {
+            if (brick == null) {
                 continue;
             }
 
-            bricks[i].moveDown();
+            brick.moveDown();
         }
     }
 
@@ -48,8 +48,4 @@ public class BeltGrid extends Grid {
         return fallingBrick;
     }
 
-    @Override
-    public void endgameMessage(String gameOver) {
-        super.endgameMessage(gameOver);
-    }
 }

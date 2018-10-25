@@ -1,345 +1,259 @@
 package org.academiadecodigo.bootcamp.gameobjects.grid;
 
 import org.academiadecodigo.bootcamp.Music;
+import org.academiadecodigo.bootcamp.Resources;
 import org.academiadecodigo.bootcamp.gameobjects.brick.Brick;
 
 public class StackGrid extends Grid {
 
-    private int pointsScore;
-
-    private Brick[][] stackBrickCol;
-    private Brick brickReceive;
-
-    private int rows;
-    private int cols;
-    private boolean cleanBlock = false;
+    private int comboScore;
+    private final Brick[][] stackBricks;
+    private boolean clearedBlock = false;
 
     public StackGrid(int cols, int rows) {
         super(cols, rows, 0);
 
-        this.pointsScore = 0;
+        this.comboScore = 0;
+        this.stackBricks = new Brick[cols][];
 
-        this.stackBrickCol = new Brick[cols][];
-
-        this.rows = rows;
-
-        this.cols = cols;
-
-        createRows();
     }
 
-    private void createRows() {
+    public void init() {
 
-        for (int i = 0; i < stackBrickCol.length; i++) {
+        for (int i = 0; i < stackBricks.length; i++) {
 
-            this.stackBrickCol[i] = new Brick[rows];
+            this.stackBricks[i] = new Brick[rows];
         }
-
     }
 
-
-    public boolean receiveBrick(Brick[] brick) {
-
-
-        int brickCol = 0;
-        int brickRow = 0;
-
+    public boolean canReceiveBricks(Brick[] bricks) {
 
         //Add brick on StackGrid
+        for (Brick brick : bricks) {
+            clearedBlock = false;
 
-        for (int i = 0; i < brick.length; i++) {
-            cleanBlock = false;
-
-            this.brickReceive = brick[i];
-
-            if (this.brickReceive == null) {
+            if (brick == null) {
                 break;
             }
 
-
-            brickCol = brickReceive.getCol();
+            int brickRow;
+            int brickCol = brick.getCol();
 
             //Check Game Over
-            if (stackBrickCol[brickCol][rows - 1] != null) {
+            if (stackBricks[brickCol][rows - 1] != null) {
                 return false;
             }
 
             //Put block on Grid
-            for (int e = 0; e < stackBrickCol.length; e++) {
-                if (!(stackBrickCol[brickCol][e] == null)) {
+            brickRow = placeBlock(brick);
 
-                    continue;
-                }
+            brick.show(rectangle.getX(), rectangle.getY());
 
-                stackBrickCol[brickCol][e] = this.brickReceive;
-                brickRow = e;
-                break;
+            for (int rowsMoved = 0; rowsMoved <= rows - brickRow; rowsMoved++) {
+                brick.moveDown();
             }
 
-            if (brickReceive != null) {
-                Brick myBrick = brickReceive;
-                myBrick.show(rectangle.getX(), rectangle.getY());
-
-                for (int j = 0; j <= rows - brickRow; j++) {
-                    myBrick.moveDown();
-                }
-            }
-
-            itScore(brickCol, brickRow);
-
-
+            checkCombination(brickCol, brickRow);
         }
-
 
         return true; //Keep going the game;
     }
 
+    private int placeBlock(Brick brick) {
 
-    public int resetPointsScore() {
+        int brickRow = 0;
+        int col = brick.getCol();
 
-        int pointToReturn = pointsScore;
-        pointsScore = 0;
+        for (int row = 0; row < stackBricks.length; row++) {
+            if ((stackBricks[col][row] == null)) {
+                stackBricks[col][row] = brick;
+                brickRow = row;
+                break;
+            }
+        }
+
+        return brickRow;
+    }
+
+    public int processComboScore() {
+
+        int pointToReturn = comboScore;
+        comboScore = 0;
+
         if (pointToReturn > 0) {
-            new Music("/resources/score.wav",false).startMusic();
+            new Music(Resources.SCORE, false).startMusic();
         }
 
         return pointToReturn;
-
-
     }
 
-    private void itScore(int col, int row) {
+    private void checkCombination(int col, int row) {
 
-        cleanBlock = false;
+        clearedBlock = false;
 
-        //Check for equals blocks down of this block
-
-        if ((row != 0 && row != 1)) {
-
-            if (stackBrickCol[col][row - 1] != null && stackBrickCol[col][row - 2] != null) {
-
-                upColumns(col, row);
-            }
-        }
-
-        //Check for equals blocks up of this block
-        if (row + 1 < this.rows && col + 2 < this.rows) {
-            if (stackBrickCol[col][row + 1] != null && stackBrickCol[col][row + 2] != null) {
-
-                downColumns(col, row);
-
-            }
+        if (row > 1) {
+            checkComboBelow(col, row);
         }
 
         //Check for equals blocks up and down of this block
         if (row + 1 < this.cols && row - 1 >= 0) {
-            if (stackBrickCol[col][row + 1] != null && stackBrickCol[col][row - 1] != null) {
+            if (stackBricks[col][row + 1] != null &&
+                    stackBricks[col][row - 1] != null) {
 
-                middleColumns(col, row);
-
+                checkVerticalComboMiddle(col, row);
             }
         }
 
-
         //Check for 2 equals blocks on the left of this block
         if (col - 1 >= 0 && col - 2 >= 0) {
+            if (stackBricks[col - 1][row] != null &&
+                    stackBricks[col - 2][row] != null) {
 
-            if (stackBrickCol[col - 1][row] != null && stackBrickCol[col - 2][row] != null) {
-
-                leftRows(col, row);
-
+                checkComboLeft(col, row);
             }
         }
 
         //Check for 2 equals blocks on the right of this block
         if (col + 1 < this.cols && col + 2 < this.cols) {
-            if (stackBrickCol[col + 1][row] != null && stackBrickCol[col + 2][row] != null) {
+            if (stackBricks[col + 1][row] != null &&
+                    stackBricks[col + 2][row] != null) {
 
-                rightRows(col, row);
-
+                checkComboRight(col, row);
             }
         }
 
         //check for equals blocks on the right and left of this block
-
         if (col + 1 < this.cols && col - 1 >= 0) {
-            if (stackBrickCol[col + 1][row] != null && stackBrickCol[col - 1][row] != null) {
+            if (stackBricks[col + 1][row] != null &&
+                    stackBricks[col - 1][row] != null) {
 
-                middleRows(col, row);
-
+                checkHorizontalComboMiddle(col, row);
             }
         }
 
-
-        if (cleanBlock && stackBrickCol[col][row] != null) {
-            stackBrickCol[col][row].hide();
-            stackBrickCol[col][row] = null;
+        if (clearedBlock && stackBricks[col][row] != null) {
+            stackBricks[col][row].hide();
+            stackBricks[col][row] = null;
         }
     }
 
+    private void checkComboBelow(int col, int row) {
 
-    private void upColumns(int col, int row) {
+        Brick first = stackBricks[col][row - 1];
+        Brick second = stackBricks[col][row - 2];
+        Brick current = stackBricks[col][row];
 
-        if ((stackBrickCol[col][row].getColor()) == (stackBrickCol[col][row - 1].getColor()) &&
-                (stackBrickCol[col][row].getColor()) == (stackBrickCol[col][row - 2].getColor())) {
-
-            pointsScore += 50;
-
-            stackBrickCol[col][row - 1].hide();
-            stackBrickCol[col][row - 2].hide();
-
-
-            stackBrickCol[col][row - 1] = null;
-            stackBrickCol[col][row - 2] = null;
-
-            cleanBlock = true;
+        if (current.isSameColor(first, second)) {
+            deleteBrick(first);
+            deleteBrick(second);
+            scoreUp();
+            clearedBlock = true;
         }
     }
 
-    private void downColumns(int col, int row) {
+    private void checkVerticalComboMiddle(int col, int row) {
 
-        if ((stackBrickCol[col][row].getColor()) == (stackBrickCol[col][row + 1].getColor()) &&
-                (stackBrickCol[col][row].getColor()) == (stackBrickCol[col][row + 2].getColor())) {
+        Brick over = stackBricks[col][row - 1];
+        Brick under = stackBricks[col][row + 1];
+        Brick current = stackBricks[col][row];
 
-            pointsScore += 50;
-
-            stackBrickCol[col][row + 1].hide();
-            stackBrickCol[col][row + 2].hide();
-
-
-            stackBrickCol[col][row + 1] = null;
-            stackBrickCol[col][row + 2] = null;
-
-            cleanBlock = true;
+        if (current.isSameColor(over, under)) {
+            deleteBrick(over, under);
+            scoreUp();
+            clearedBlock = true;
         }
     }
 
+    private void checkComboLeft(int col, int row) {
 
-    private void middleColumns(int col, int row) {
+        Brick first = stackBricks[col - 1][row];
+        Brick second = stackBricks[col - 2][row];
+        Brick current = stackBricks[col][row];
 
-        if ((stackBrickCol[col][row].getColor()) == (stackBrickCol[col][row - 1].getColor()) &&
-                (stackBrickCol[col][row].getColor()) == (stackBrickCol[col][row + 1].getColor())) {
-
-            pointsScore += 50;
-
-            stackBrickCol[col][row - 1].hide();
-            stackBrickCol[col][row + 1].hide();
-
-
-            stackBrickCol[col][row - 1] = null;
-            stackBrickCol[col][row + 1] = null;
-
-            cleanBlock = true;
-        }
-    }
-
-
-    private void leftRows(int col, int row) {
-
-        if (stackBrickCol[col][row].getColor() == stackBrickCol[col - 1][row].getColor() &&
-                stackBrickCol[col][row].getColor() == stackBrickCol[col - 2][row].getColor()) {
-
-            pointsScore += 50;
-
-            stackBrickCol[col - 1][row].hide();
-            stackBrickCol[col - 2][row].hide();
-
-            stackBrickCol[col - 1][row] = null;
-            stackBrickCol[col - 2][row] = null;
-
-
+        if (current.isSameColor(first, second)) {
+            deleteBrick(first, second);
             resetStack(col - 1, row);
             resetStack(col - 2, row);
-
-            cleanBlock = true;
+            scoreUp();
+            clearedBlock = true;
         }
     }
 
-    private void rightRows(int col, int row) {
+    private void checkComboRight(int col, int row) {
 
-        if (stackBrickCol[col][row].getColor() == stackBrickCol[col + 1][row].getColor() &&
-                stackBrickCol[col][row].getColor() == stackBrickCol[col + 2][row].getColor()) {
+        Brick first = stackBricks[col + 1][row];
+        Brick second = stackBricks[col + 2][row];
+        Brick current = stackBricks[col][row];
 
-            pointsScore += 50;
-
-            stackBrickCol[col + 1][row].hide();
-            stackBrickCol[col + 2][row].hide();
-
-            stackBrickCol[col + 1][row] = null;
-            stackBrickCol[col + 2][row] = null;
-
-
+        if (current.isSameColor(first, second)) {
+            deleteBrick(first, second);
             resetStack(col + 1, row);
             resetStack(col + 2, row);
-
-            cleanBlock = true;
+            scoreUp();
+            clearedBlock = true;
         }
     }
 
-    private void middleRows(int col, int row) {
+    private void checkHorizontalComboMiddle(int col, int row) {
 
-        if (stackBrickCol[col][row].getColor() == stackBrickCol[col + 1][row].getColor() &&
-                stackBrickCol[col][row].getColor() == stackBrickCol[col - 1][row].getColor()) {
+        Brick left = stackBricks[col - 1][row];
+        Brick right = stackBricks[col + 1][row];
+        Brick current = stackBricks[col][row];
 
-            pointsScore += 50;
-
-            stackBrickCol[col + 1][row].hide();
-            stackBrickCol[col - 1][row].hide();
-
-            stackBrickCol[col + 1][row] = null;
-            stackBrickCol[col - 1][row] = null;
-
-
+        if (current.isSameColor(left, right)) {
+            deleteBrick(left, right);
             resetStack(col + 1, row);
             resetStack(col - 1, row);
-
-            cleanBlock = true;
+            scoreUp();
+            clearedBlock = true;
         }
-
-
     }
-
 
     private void resetStack(int col, int row) {
 
-        for (int i = row + 1; i < this.rows; i++) {
+        for (int currentRow = row + 1; currentRow < this.rows; currentRow++) {
 
-            if (stackBrickCol[col][i] != null) {
-
-                stackBrickCol[col][i - 1] = stackBrickCol[col][i];
-
-
-                stackBrickCol[col][i].hide();
-                stackBrickCol[col][i] = null;
-
-
-                Brick myBrick = stackBrickCol[col][i - 1];
-                myBrick.show(rectangle.getX(), rectangle.getY());
-
-                myBrick.moveDown();
-
-                itScore(col, i - 1);
-
-
+            if (stackBricks[col][currentRow] == null) {
+                continue;
             }
 
+            stackBricks[col][currentRow - 1] = stackBricks[col][currentRow];
+
+            stackBricks[col][currentRow].hide();
+            stackBricks[col][currentRow] = null;
+
+            Brick brick = stackBricks[col][currentRow - 1];
+            brick.show(rectangle.getX(), rectangle.getY());
+
+            brick.moveDown();
+
+            checkCombination(col, currentRow - 1);
         }
-
-
     }
 
     @Override
     public void reset() {
-        super.reset();
-        for (int i = 0; i < stackBrickCol.length; i++) {
-            for (int j = 0; j < stackBrickCol.length; j++) {
-                if (stackBrickCol[i][j] != null) {
-                    stackBrickCol[i][j].hide();
-                    stackBrickCol[i][j] = null;
+        for (int i = 0; i < stackBricks.length; i++) {
+            for (int j = 0; j < stackBricks.length; j++) {
+                if (stackBricks[i][j] != null) {
+                    stackBricks[i][j].hide();
+                    stackBricks[i][j] = null;
                 }
             }
         }
     }
 
+    private void deleteBrick(Brick... bricks) {
+        for (Brick brick : bricks) {
+            int col = brick.getCol();
+            int row = rows + 1 - brick.getRow();
 
+            stackBricks[col][row].hide();
+            stackBricks[col][row] = null;
+        }
+    }
+
+    private void scoreUp() {
+        comboScore += 50;
+    }
 }

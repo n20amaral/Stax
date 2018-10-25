@@ -9,7 +9,7 @@ import java.net.URL;
 public class Music {
 
     private boolean loop;
-    private String audioPath;
+    private final String audioPath;
 
     public Music(String audioPath, boolean loop) {
         this.audioPath = audioPath;
@@ -46,10 +46,6 @@ public class Music {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setLoop(boolean loop) {
-        this.loop = loop;
     }
 }
 

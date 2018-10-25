@@ -1,6 +1,6 @@
 package org.academiadecodigo.bootcamp.gameobjects.brick;
 
-import org.academiadecodigo.bootcamp.Game;
+import org.academiadecodigo.bootcamp.GameConfigs;
 import org.academiadecodigo.bootcamp.gameobjects.Displayable;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
@@ -8,16 +8,16 @@ public class Brick implements Displayable {
 
     private int col;
     private int row = 0;
-    private BrickColor color;
-    private Rectangle rectangle;
+    private final BrickColor color;
+    private final Rectangle rectangle;
 
     public Brick(int col, BrickColor color) {
         this.col = col;
         this.color = color;
-        rectangle = new Rectangle(col * Game.BRICK_WIDTH + Game.GRID_PADDING,
-                row * Game.BRICK_HEIGHT + Game.PADDING,
-                Game.BRICK_WIDTH,
-                Game.BRICK_HEIGHT);
+        rectangle = new Rectangle(col * GameConfigs.BRICK_WIDTH + GameConfigs.GRID_PADDING,
+                row * GameConfigs.BRICK_HEIGHT + GameConfigs.PADDING,
+                GameConfigs.BRICK_WIDTH,
+                GameConfigs.BRICK_HEIGHT);
     }
 
     public BrickColor getColor() {
@@ -38,17 +38,17 @@ public class Brick implements Displayable {
 
     public void moveDown() {
         row++;
-        rectangle.translate(0, Game.BRICK_HEIGHT);
+        rectangle.translate(0, GameConfigs.BRICK_HEIGHT);
     }
 
     public void moveLeft() {
         col--;
-        rectangle.translate(0 - Game.BRICK_WIDTH, 0);
+        rectangle.translate(0 - GameConfigs.BRICK_WIDTH, 0);
     }
 
     public void moveRight() {
         col++;
-        rectangle.translate(Game.BRICK_WIDTH, 0);
+        rectangle.translate(GameConfigs.BRICK_WIDTH, 0);
     }
 
     @Override
@@ -63,18 +63,8 @@ public class Brick implements Displayable {
     }
 
     @Override
-    public int getX() {
-        return rectangle.getX();
-    }
-
-    @Override
     public int getY() {
         return rectangle.getY();
-    }
-
-    @Override
-    public int getWidth() {
-        return rectangle.getWidth();
     }
 
     @Override
@@ -82,4 +72,12 @@ public class Brick implements Displayable {
         return rectangle.getHeight();
     }
 
+    public boolean isSameColor(Brick... bricks) {
+        for (Brick brick : bricks) {
+            if (color != brick.getColor()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
