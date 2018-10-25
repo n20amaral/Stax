@@ -3,56 +3,41 @@ package org.academiadecodigo.bootcamp;
 import org.academiadecodigo.bootcamp.gameobjects.Carrier;
 import org.academiadecodigo.bootcamp.gameobjects.brick.*;
 import org.academiadecodigo.bootcamp.gameobjects.grid.*;
-import org.academiadecodigo.simplegraphics.graphics.*;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
-public class Game {
-    public static final int CANVAS_WIDTH = 800;
-    public static final int CANVAS_HEIGHT = 600;
-    public static final int PADDING = 10;
-    public static final int BRICK_WIDTH = 70;
-    public static final int BRICK_HEIGHT = 25;
-    public static final int GRID_PADDING = (CANVAS_WIDTH - Stax.MAX_COLS * BRICK_WIDTH) / 2 + PADDING;
-    private static boolean resetStatus = false;
+import static org.academiadecodigo.bootcamp.GameConfigs.*;
 
-    private int lives = 5;
-    private int cols;
+public class Game {
+
+    private static boolean resetStatus = false;
+    private boolean gameOver = false;
+
+    private int lives = GameConfigs.LIVES;
+    private int step = 5;
     private int score = 0;
-    private Rectangle canvas = new Rectangle(PADDING, PADDING, CANVAS_WIDTH, CANVAS_HEIGHT);
+
     private BeltGrid beltGrid;
     private CarrierGrid carrierGrid;
     private StackGrid stackGrid;
     private Carrier carrier;
-    private boolean gameOver;
-    private int step = 5;
-    private Text textScore = new Text(30, 20, "Score: " + score);
-    private Text textLives = new Text(30, 60, "Lives: " + lives);
-    private Text textPress = new Text(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, "Press R");
-    private Picture backGroundImage = new Picture(PADDING, PADDING, "resources/background.jpg");
-
-    public Game(int cols) {
-        this.cols = cols;
-    }
+    private GameInfo info;
 
     public void init() {
-        beltGrid = new BeltGrid(cols, 10);
-        carrierGrid = new CarrierGrid(cols, 2);
-        stackGrid = new StackGrid(cols, 5);
 
-
-        canvas.draw();
+        final Picture backGroundImage = new Picture(PADDING, PADDING, Resources.BACKGROUND);
         backGroundImage.draw();
-        textScore.grow(20, 20);
-        textScore.setColor(Color.WHITE);
-        textScore.draw();
-        textLives.grow(20, 20);
-        textLives.setColor(Color.WHITE);
-        textLives.draw();
+
+        info = new GameInfo();
+        info.init();
+
+        beltGrid = new BeltGrid(GameConfigs.MAX_COLS, 10);
+        carrierGrid = new CarrierGrid(GameConfigs.MAX_COLS, 2);
+        stackGrid = new StackGrid(GameConfigs.MAX_COLS, 5);
+        stackGrid.init();
+
         beltGrid.show(GRID_PADDING, PADDING);
         carrierGrid.show(GRID_PADDING, PADDING + beltGrid.getHeight());
         stackGrid.show(GRID_PADDING, PADDING + beltGrid.getHeight() + carrierGrid.getHeight());
-        textPress.grow(50, 50);
-        textPress.setColor(Color.RED);
 
         carrier = new Carrier(carrierGrid);
         carrier.init();
@@ -60,9 +45,9 @@ public class Game {
 
     public void start() throws InterruptedException {
 
-        new Music("/resources/music.wav", true).startMusic();
+        new Music(Resources.MUSIC, true).startMusic();
 
-        while (!isGameOver()) {
+        while (!gameOver) {
 
             if (step == 5) {
                 createBricks();
@@ -74,14 +59,14 @@ public class Game {
             Thread.sleep(250);
 
             moveBricks();
-            finalRowCheck();
-            droppedbricks();
+            checkMissedBricks();
+            droppedBricks();
             addPoints();
         }
 
         while (true) {
             Thread.sleep(100);
-            if (resetStatus == true) {
+            if (resetStatus) {
                 reset();
                 break;
             }
@@ -93,7 +78,7 @@ public class Game {
     private void createBricks() {
         Brick brick = BrickFactory.getNewBrick();
         if (beltGrid.addNewBrick(brick)) {
-            brick.show(Game.PADDING + brick.getCol() * Game.BRICK_WIDTH, Game.PADDING);
+            brick.show(PADDING + brick.getCol() * BRICK_WIDTH, PADDING);
         }
     }
 
@@ -101,7 +86,7 @@ public class Game {
         beltGrid.moveAllBricks();
     }
 
-    private void finalRowCheck() {
+    private void checkMissedBricks() {
 
         Brick brick = beltGrid.getFallingBrick();
 
@@ -111,8 +96,8 @@ public class Game {
         if (!carrier.addBrick(brick)) {
             brick.hide();
             this.lives--;
-            textLives.setText("Lives: " + lives);
-            textLives.draw();
+            info.getTextLives().setText("Lives: " + lives);
+            info.getTextLives().draw();
 
             if (lives == 0) {
                 endgame();
@@ -120,54 +105,46 @@ public class Game {
         }
     }
 
-    private void droppedbricks() {
+    private void droppedBricks() {
 
         Brick[] bricks = carrierGrid.getReleasedBricks();
 
-        if (bricks != null && !stackGrid.receiveBrick(bricks)) {
+        if (bricks != null && !stackGrid.canReceiveBricks(bricks)) {
             endgame();
         }
-
     }
 
     private void addPoints() {
 
-        score += stackGrid.resetPointsScore();
-        textScore.setText("Score: " + score);
-        textScore.draw();
-
+        score += stackGrid.processComboScore();
+        info.getTextScore().setText("Score: " + score);
+        info.getTextScore().draw();
     }
 
     private void endgame() {
         carrier.setStop(true);
-        new Music("/resources/gameover.wav", false).startMusic();
+        new Music(Resources.GAME_OVER, false).startMusic();
         beltGrid.endgameMessage("Game Over");
-        textPress.draw();
-        setGameOver();
+        info.getTextPress().draw();
+        gameOver = true;
     }
 
-    private boolean isGameOver() {
-        return gameOver;
-    }
-
-    public void setGameOver() {
-        this.gameOver = true;
-    }
-
-    public void reset() {
+    private void reset() {
         beltGrid.reset();
         carrierGrid.reset();
         stackGrid.reset();
         carrier.reset();
         carrier.setStop(false);
         beltGrid.hideMessage();
-        textPress.delete();
-        lives = 5;
-        textLives.setText("Lives: " + lives);
-        textLives.draw();
+
+        lives = GameConfigs.LIVES;
         score = 0;
-        textScore.setText("Score: " + score);
-        textScore.draw();
+
+        info.getTextPress().delete();
+        info.getTextLives().setText("Lives: " + lives);
+        info.getTextLives().draw();
+        info.getTextScore().setText("Score: " + score);
+        info.getTextScore().draw();
         gameOver = false;
         resetStatus = false;
     }

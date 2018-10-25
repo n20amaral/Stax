@@ -1,21 +1,20 @@
 package org.academiadecodigo.bootcamp.gameobjects.brick;
 
-
+import org.academiadecodigo.bootcamp.Resources;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 
 public enum BrickColor {
 
-    RED(Color.RED, "/resources/red.wav"),
-    PINK(Color.PINK, "/resources/pink.wav"),
-    BLUE(Color.BLUE, "/resources/blue.wav"),
-    YELLOW(Color.YELLOW, "/resources/yellow.wav"),
-    GREEN(Color.GREEN, "/resources/green.wav"),
-    CYAN(Color.CYAN, "/resources/cyan.wav"),
-    ORANGE(Color.ORANGE, "/resources/orange.wav");
+    RED(Color.RED, Resources.RED),
+    PINK(Color.PINK, Resources.PINK),
+    BLUE(Color.BLUE, Resources.BLUE),
+    YELLOW(Color.YELLOW, Resources.YELLOW),
+    GREEN(Color.GREEN, Resources.GREEN),
+    CYAN(Color.CYAN, Resources.CYAN),
+    ORANGE(Color.ORANGE, Resources.ORANGE);
 
-
-    Color gfxColor;
-    String audioPath;
+    final Color gfxColor;
+    final String audioPath;
 
     BrickColor(Color color, String audioPath) {
         this.gfxColor = color;

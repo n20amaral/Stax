@@ -1,6 +1,6 @@
 package org.academiadecodigo.bootcamp.gameobjects.grid;
 
-import org.academiadecodigo.bootcamp.Game;
+import org.academiadecodigo.bootcamp.GameConfigs;
 import org.academiadecodigo.bootcamp.gameobjects.Displayable;
 import org.academiadecodigo.bootcamp.gameobjects.brick.Brick;
 import org.academiadecodigo.simplegraphics.graphics.Color;
@@ -8,9 +8,9 @@ import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 
 public abstract class Grid implements Displayable {
-    private int cols;
-    private int rows;
-    protected Brick[] bricks;
+    protected final int cols;
+    protected final int rows;
+    protected final Brick[] bricks;
     protected Rectangle rectangle;
     private final Color gridColor = Color.BLACK;
     private Text gameMessage;
@@ -30,7 +30,7 @@ public abstract class Grid implements Displayable {
     }
 
     public void endgameMessage(String gameOver) {
-        gameMessage = new Text(Game.CANVAS_WIDTH / 2, Game.CANVAS_HEIGHT / 4, gameOver);
+        gameMessage = new Text(GameConfigs.MID_CANVAS_WIDTH, GameConfigs.QUARTER_CANVAS_HEIGHT, gameOver);
         gameMessage.grow(100, 100);
         gameMessage.setColor(Color.RED);
         gameMessage.draw();
@@ -39,7 +39,7 @@ public abstract class Grid implements Displayable {
     @Override
     public void show(int x, int y) {
         if (rectangle == null) {
-            rectangle = new Rectangle(x, y, cols * Game.BRICK_WIDTH, rows * Game.BRICK_HEIGHT);
+            rectangle = new Rectangle(x, y, cols * GameConfigs.BRICK_WIDTH, rows * GameConfigs.BRICK_HEIGHT);
         }
 
         rectangle.setColor(gridColor);
@@ -52,19 +52,10 @@ public abstract class Grid implements Displayable {
         rectangle.delete();
     }
 
-    @Override
-    public int getX() {
-        return rectangle.getX();
-    }
 
     @Override
     public int getY() {
         return rectangle.getY();
-    }
-
-    @Override
-    public int getWidth() {
-        return rectangle.getWidth();
     }
 
     @Override

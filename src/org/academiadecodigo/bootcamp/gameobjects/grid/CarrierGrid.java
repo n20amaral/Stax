@@ -1,24 +1,18 @@
 package org.academiadecodigo.bootcamp.gameobjects.grid;
 
+import org.academiadecodigo.bootcamp.GameConfigs;
 import org.academiadecodigo.bootcamp.gameobjects.brick.Brick;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 
 public class CarrierGrid extends Grid {
 
-    private int cols;
-
     public CarrierGrid(int cols, int rows) {
-        super(cols, rows, 5);
-        this.cols = cols;
-    }
-
-    public int getCols() {
-        return cols;
+        super(cols, rows, GameConfigs.CARRIER_MAX_BRICKS);
     }
 
     private boolean isAnyReleasedBricks() {
-        for (int i = 0; i < bricks.length; i++) {
-            if (bricks[i] != null) {
+        for (Brick brick : bricks) {
+            if (brick != null) {
                 return true;
             }
         }

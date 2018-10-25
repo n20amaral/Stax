@@ -1,7 +1,9 @@
 package org.academiadecodigo.bootcamp.gameobjects;
 
 import org.academiadecodigo.bootcamp.Game;
+import org.academiadecodigo.bootcamp.GameConfigs;
 import org.academiadecodigo.bootcamp.Music;
+import org.academiadecodigo.bootcamp.Resources;
 import org.academiadecodigo.bootcamp.gameobjects.grid.*;
 import org.academiadecodigo.bootcamp.gameobjects.brick.*;
 import org.academiadecodigo.simplegraphics.graphics.*;
@@ -10,28 +12,22 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Carrier implements Displayable, KeyboardHandler {
 
-    private CarrierGrid grid;
-    private Rectangle carrier;
-    private Picture carrierImg;
-    private Color color = Color.WHITE;
+    private final CarrierGrid grid;
+    private final Picture carrierImg;
     private Brick brick;
     private int col;
-    private int row;
-    private Keyboard keyboard;
+    private final int row;
     private boolean stop = false;
 
     public Carrier(CarrierGrid grid) {
         this.grid = grid;
         this.col = 0;
         this.row = grid.getRows() - 1;
-        this.carrier = new Rectangle(Game.GRID_PADDING + col * Game.BRICK_WIDTH,
-                grid.getY() + row * Game.BRICK_HEIGHT,
-                Game.BRICK_WIDTH,
-                Game.BRICK_HEIGHT);
-        this.carrierImg = new Picture(Game.GRID_PADDING + col * Game.BRICK_WIDTH,
-                grid.getY() + row * Game.BRICK_HEIGHT,
-                "resources/jvm.png");
 
+        int carrierX = GameConfigs.GRID_PADDING + col * GameConfigs.BRICK_WIDTH;
+        int carrierY = grid.getY() + row * GameConfigs.BRICK_HEIGHT;
+
+        this.carrierImg = new Picture(carrierX, carrierY, Resources.CARRIER);
     }
 
     public void setStop(boolean toStop) {
@@ -58,7 +54,7 @@ public class Carrier implements Displayable, KeyboardHandler {
 
     public void init() {
 
-        this.keyboard = new Keyboard(this);
+        Keyboard keyboard = new Keyboard(this);
 
         KeyboardEvent left = new KeyboardEvent();
         KeyboardEvent right = new KeyboardEvent();
@@ -80,17 +76,14 @@ public class Carrier implements Displayable, KeyboardHandler {
         keyboard.addEventListener(space);
         keyboard.addEventListener(r);
 
-        carrier.setColor(color);
-        carrier.fill();
         carrierImg.draw();
     }
 
-    public void moveLeft() {
+    private void moveLeft() {
 
         if (col > 0) {
             col--;
-            carrierImg.translate(0 - Game.BRICK_WIDTH, 0);
-            carrier.translate(0 - Game.BRICK_WIDTH, 0);
+            carrierImg.translate(0 - GameConfigs.BRICK_WIDTH, 0);
             if (brick != null) {
                 brick.moveLeft();
             }
@@ -98,17 +91,15 @@ public class Carrier implements Displayable, KeyboardHandler {
 
     }
 
-    public void moveRight() {
+    private void moveRight() {
 
         if (col < grid.getCols() - 1) {
             col++;
-            carrierImg.translate(Game.BRICK_WIDTH, 0);
-            carrier.translate(Game.BRICK_WIDTH, 0);
+            carrierImg.translate(GameConfigs.BRICK_WIDTH, 0);
             if (brick != null) {
                 brick.moveRight();
             }
         }
-
     }
 
     @Override
@@ -140,32 +131,22 @@ public class Carrier implements Displayable, KeyboardHandler {
 
     @Override
     public void show(int x, int y) {
+        // TODO: empty method body
     }
 
     @Override
     public void hide() {
-        carrier.delete();
         carrierImg.delete();
     }
 
     @Override
-    public int getX() {
-        return carrier.getX();
-    }
-
-    @Override
     public int getY() {
-        return carrier.getY();
-    }
-
-    @Override
-    public int getWidth() {
-        return carrier.getWidth();
+        return carrierImg.getY();
     }
 
     @Override
     public int getHeight() {
-        return carrier.getHeight();
+        return carrierImg.getHeight();
     }
 
     public void reset() {
@@ -174,5 +155,4 @@ public class Carrier implements Displayable, KeyboardHandler {
             brick = null;
         }
     }
-
 }
